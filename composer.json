@@ -1,0 +1,49 @@
+{
+    "name": "inetstudio/social-contest",
+    "description": "Package for social contests",
+    "homepage": "https://github.com/inetstudio/social-contest",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Konstantin Bukin",
+        "email": "bukin@inetstudio.ru"
+      }
+    ],
+    "require": {
+        "chumper/zipper": "1.0.x",
+        "inetstudio/classifiers": "1.7.*",
+        "inetstudio/instagram": "1.7",
+        "inetstudio/vkontakte": "1.7.*",
+        "rutorika/sortable": "^4.7"
+    },
+    "autoload": {
+      "psr-4": {
+        "InetStudio\\SocialContest\\": "package/src",
+        "InetStudio\\SocialContest\\Points\\": "entities/points/src",
+        "InetStudio\\SocialContest\\Posts\\": "entities/posts/src",
+        "InetStudio\\SocialContest\\Prizes\\": "entities/prizes/src",
+        "InetStudio\\SocialContest\\Stages\\": "entities/stages/src",
+        "InetStudio\\SocialContest\\Statuses\\": "entities/statuses/src",
+        "InetStudio\\SocialContest\\Tags\\": "entities/tags/src"
+      }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "InetStudio\\SocialContest\\Providers\\SocialContestServiceProvider",
+                "InetStudio\\SocialContest\\Points\\Providers\\PointsBindingsServiceProvider",
+                "InetStudio\\SocialContest\\Points\\Providers\\PointsServiceProvider",
+                "InetStudio\\SocialContest\\Posts\\Providers\\PostsBindingsServiceProvider",
+                "InetStudio\\SocialContest\\Posts\\Providers\\PostsServiceProvider",
+                "InetStudio\\SocialContest\\Prizes\\Providers\\PrizesBindingsServiceProvider",
+                "InetStudio\\SocialContest\\Prizes\\Providers\\PrizesServiceProvider",
+                "InetStudio\\SocialContest\\Stages\\Providers\\StagesBindingsServiceProvider",
+                "InetStudio\\SocialContest\\Stages\\Providers\\StagesServiceProvider",
+                "InetStudio\\SocialContest\\Statuses\\Providers\\StatusesBindingsServiceProvider",
+                "InetStudio\\SocialContest\\Statuses\\Providers\\StatusesServiceProvider",
+                "InetStudio\\SocialContest\\Tags\\Providers\\TagsBindingsServiceProvider",
+                "InetStudio\\SocialContest\\Tags\\Providers\\TagsServiceProvider"
+            ]
+        }
+    }
+}

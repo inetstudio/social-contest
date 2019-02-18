@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+/**
+ * Class CreateSocialContestTagsTables.
+ */
+class CreateSocialContestTagsTables extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('social_contest_tags', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('social_contest_tags_points', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('tag_id')->unsigned()->index();
+            $table->integer('point_id')->unsigned()->index();
+            $table->integer('post_id')->unsigned()->index();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('social_contest_tags_points');
+        Schema::dropIfExists('social_contest_tags');
+    }
+}
