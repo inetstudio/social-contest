@@ -32,7 +32,7 @@ class StatusModel extends Model implements StatusModelContract
      * @var array
      */
     protected $fillable = [
-        'name', 'alias', 'color_class', 'description',
+        'name', 'alias', 'color_class', 'description', 'color_class',
     ];
 
     /**

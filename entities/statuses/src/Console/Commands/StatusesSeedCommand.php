@@ -2,8 +2,9 @@
 
 namespace InetStudio\SocialContest\Statuses\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
-use InetStudio\Classifiers\Models\ClassifierModel;
+use Illuminate\Support\Facades\DB;
 use InetStudio\SocialContest\Statuses\Models\StatusModel;
 
 /**
@@ -32,6 +33,8 @@ class StatusesSeedCommand extends Command
      */
     public function handle(): void
     {
+        $groupsService = app()->make('InetStudio\Classifiers\Groups\Contracts\Services\Back\GroupsServiceContract');
+
         $statuses = [
             [
                 'name' => 'Модерация',
@@ -69,24 +72,35 @@ class StatusesSeedCommand extends Command
             ],
         ];
 
+        $now = Carbon::now()->format('Y-m-d H:m:s');
+
+        $group = $groupsService->model::updateOrCreate([
+            'name' => 'Тип статуса социального поста',
+        ], [
+            'alias' => 'social_post_status_types',
+        ]);
+
         foreach ($statuses as $status) {
             $statusObj = StatusModel::updateOrCreate([
                 'name' => $status['name'],
                 'alias' => $status['alias'],
                 'description' => $status['description'],
+                'color_class' => $status['css_color'],
             ]);
 
             $classifiers = [];
             if (isset($status['types'])) {
                 foreach ($status['types'] as $alias => $value) {
-                    $classifier = ClassifierModel::updateOrCreate([
-                        'type' => 'Тип статуса социального поста',
+                    $id = DB::connection('mysql')->table('classifiers_entries')->insertGetId([
                         'value' => $value,
-                    ], [
                         'alias' => $alias,
+                        'created_at' => $now,
+                        'updated_at' => $now,
                     ]);
 
-                    $classifiers[] = $classifier;
+                    $group->entries()->attach($id);
+
+                    $classifiers[] = $id;
                 }
             }
 

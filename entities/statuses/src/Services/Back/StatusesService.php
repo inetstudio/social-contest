@@ -37,7 +37,7 @@ class StatusesService extends BaseService implements StatusesServiceContract
 
         $item = $this->repository->save($request->only($this->repository->getModel()->getFillable()), $id);
 
-        app()->make('InetStudio\Classifiers\Contracts\Services\Back\ClassifiersServiceContract')
+        app()->make('InetStudio\Classifiers\Entries\Contracts\Services\Back\EntriesServiceContract')
             ->attachToObject($request, $item);
 
         event(app()->makeWith('InetStudio\SocialContest\Statuses\Contracts\Events\Back\ModifyStatusEventContract', [
@@ -89,7 +89,7 @@ class StatusesService extends BaseService implements StatusesServiceContract
     public function getStatusByType(string $type): ?StatusModelContract
     {
         return $this->repository->getItemsQuery()->whereHas('classifiers', function ($classifiersQuery) use ($type) {
-            $classifiersQuery->where('classifiers.alias', $type);
+            $classifiersQuery->where('classifiers_entries.alias', $type);
         })->first();
     }
 }
