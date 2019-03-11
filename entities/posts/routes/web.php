@@ -9,6 +9,7 @@ Route::group([
     Route::post('posts/suggestions', 'PostsUtilityControllerContract@getSuggestions')->name('back.social-contest.posts.getSuggestions');
     Route::post('posts/moderate/{id}/{statusAlias}', 'PostsModerateControllerContract@moderate')->name('back.social-contest.posts.moderate');
     Route::post('posts/add', 'PostsControllerContract@addPost')->name('back.social-contest.posts.add');
+    Route::get('posts/export', 'PostsExportControllerContract@exportPosts')->name('back.social-contest.posts.export');
 
     Route::resource('posts', 'PostsControllerContract', ['except' => [
         'show',
