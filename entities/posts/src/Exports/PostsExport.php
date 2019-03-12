@@ -38,7 +38,7 @@ class PostsExport implements PostsExportContract, FromQuery, WithMapping, WithHe
      */
     public function map($item): array
     {
-        $fileUrl = ($item->social->hasMedia('media')) ? $item->social->getFirstMediaUrl('media') : '';
+        $fileUrl = ($item->social->hasMedia('media')) ? url($item->social->getFirstMediaUrl('media')) : '';
 
         return [
             $item['id'],
@@ -49,7 +49,7 @@ class PostsExport implements PostsExportContract, FromQuery, WithMapping, WithHe
             $item['social']['url'],
             $item['social']['caption'],
             Date::dateTimeToExcel($item['created_at']),
-            url($fileUrl),
+            $fileUrl,
         ];
     }
 
@@ -78,7 +78,7 @@ class PostsExport implements PostsExportContract, FromQuery, WithMapping, WithHe
     {
         return [
             'A' => NumberFormat::FORMAT_NUMBER,
-            'D' => NumberFormat::FORMAT_DATE_DATETIME,
+            'H' => NumberFormat::FORMAT_DATE_DATETIME,
         ];
     }
 }
