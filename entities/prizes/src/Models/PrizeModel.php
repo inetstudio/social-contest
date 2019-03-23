@@ -3,17 +3,17 @@
 namespace InetStudio\SocialContest\Prizes\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Venturecraft\Revisionable\RevisionableTrait;
 use InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract;
 
 /**
  * Class PrizeModel.
  */
-class PrizeModel extends Model implements PrizeModelContract
+class PrizeModel extends Model implements PrizeModelContract, Auditable
 {
     use SoftDeletes;
-    use RevisionableTrait;
+    use \OwenIt\Auditing\Auditable;
 
     const MATERIAL_TYPE = 'social_contest_prize';
 
@@ -99,5 +99,10 @@ class PrizeModel extends Model implements PrizeModelContract
         )->withTimestamps();
     }
 
-    protected $revisionCreationsEnabled = true;
+    /**
+     * Should the timestamps be audited?
+     *
+     * @var bool
+     */
+    protected $auditTimestamps = true;
 }

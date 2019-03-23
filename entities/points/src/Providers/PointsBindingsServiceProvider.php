@@ -3,17 +3,13 @@
 namespace InetStudio\SocialContest\Points\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
 /**
  * Class PointsBindingsServiceProvider.
  */
-class PointsBindingsServiceProvider extends ServiceProvider
+class PointsBindingsServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
-    * @var  bool
-    */
-    protected $defer = true;
-
     /**
     * @var  array
     */

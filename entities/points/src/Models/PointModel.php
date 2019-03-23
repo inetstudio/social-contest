@@ -3,17 +3,17 @@
 namespace InetStudio\SocialContest\Points\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Venturecraft\Revisionable\RevisionableTrait;
 use InetStudio\SocialContest\Points\Contracts\Models\PointModelContract;
 
 /**
  * Class PointModel.
  */
-class PointModel extends Model implements PointModelContract
+class PointModel extends Model implements PointModelContract, Auditable
 {
     use SoftDeletes;
-    use RevisionableTrait;
+    use \OwenIt\Auditing\Auditable;
 
     const MATERIAL_TYPE = 'social_contest_point';
 
@@ -122,7 +122,12 @@ class PointModel extends Model implements PointModelContract
             'point_id', 
             'post_id'
         )->withPivot('tag_id')->withTimestamps();
-    }    
+    }
 
-    protected $revisionCreationsEnabled = true;
+    /**
+     * Should the timestamps be audited?
+     *
+     * @var bool
+     */
+    protected $auditTimestamps = true;
 }

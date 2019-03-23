@@ -3,19 +3,19 @@
 namespace InetStudio\SocialContest\Statuses\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Venturecraft\Revisionable\RevisionableTrait;
 use InetStudio\Classifiers\Models\Traits\HasClassifiers;
 use InetStudio\SocialContest\Statuses\Contracts\Models\StatusModelContract;
 
 /**
  * Class StatusModel.
  */
-class StatusModel extends Model implements StatusModelContract
+class StatusModel extends Model implements StatusModelContract, Auditable
 {
     use SoftDeletes;
     use HasClassifiers;
-    use RevisionableTrait;
+    use \OwenIt\Auditing\Auditable;
 
     const MATERIAL_TYPE = 'social_contest_status';
 
@@ -100,5 +100,10 @@ class StatusModel extends Model implements StatusModelContract
         );
     }
 
-    protected $revisionCreationsEnabled = true;
+    /**
+     * Should the timestamps be audited?
+     *
+     * @var bool
+     */
+    protected $auditTimestamps = true;
 }

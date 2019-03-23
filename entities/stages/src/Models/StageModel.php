@@ -3,17 +3,17 @@
 namespace InetStudio\SocialContest\Stages\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Venturecraft\Revisionable\RevisionableTrait;
 use InetStudio\SocialContest\Stages\Contracts\Models\StageModelContract;
 
 /**
  * Class StageModel.
  */
-class StageModel extends Model implements StageModelContract
+class StageModel extends Model implements StageModelContract, Auditable
 {
     use SoftDeletes;
-    use RevisionableTrait;
+    use \OwenIt\Auditing\Auditable;
 
     const MATERIAL_TYPE = 'social_contest_stage';
 
@@ -75,8 +75,12 @@ class StageModel extends Model implements StageModelContract
         $this->attributes['description'] = trim(str_replace("&nbsp;", ' ', strip_tags((isset($value['text'])) ? $value['text'] : (! is_array($value) ? $value : ''))));
     }
 
-
-    protected $revisionCreationsEnabled = true;
+    /**
+     * Should the timestamps be audited?
+     *
+     * @var bool
+     */
+    protected $auditTimestamps = true;
 
     /**
      * Тип материала.

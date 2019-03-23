@@ -11,9 +11,9 @@
     ],
     "require": {
         "chumper/zipper": "1.0.x",
-        "inetstudio/classifiers": "1.7.*",
+        "inetstudio/classifiers": "1.8.*",
         "inetstudio/instagram": "1.7",
-        "inetstudio/vkontakte": "1.7.*",
+        "inetstudio/vkontakte": "1.8.*",
         "rutorika/sortable": "^4.7"
     },
     "autoload": {

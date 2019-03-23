@@ -4,20 +4,20 @@ namespace InetStudio\SocialContest\Posts\Models;
 
 use Rutorika\Sortable\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Venturecraft\Revisionable\RevisionableTrait;
 use InetStudio\AdminPanel\Models\Traits\HasJSONColumns;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 
 /**
  * Class PostModel.
  */
-class PostModel extends Model implements PostModelContract
+class PostModel extends Model implements PostModelContract, Auditable
 {
     use SoftDeletes;
     use SortableTrait;
     use HasJSONColumns;
-    use RevisionableTrait;
+    use \OwenIt\Auditing\Auditable;
 
     const MATERIAL_TYPE = 'social_contest_post';
 
@@ -164,7 +164,12 @@ class PostModel extends Model implements PostModelContract
             'post_id',
             'point_id'
         )->withPivot('tag_id')->withTimestamps();
-    }    
+    }
 
-    protected $revisionCreationsEnabled = true;
+    /**
+     * Should the timestamps be audited?
+     *
+     * @var bool
+     */
+    protected $auditTimestamps = true;
 }

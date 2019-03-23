@@ -3,17 +3,13 @@
 namespace InetStudio\SocialContest\Stages\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
 /**
  * Class StagesBindingsServiceProvider.
  */
-class StagesBindingsServiceProvider extends ServiceProvider
+class StagesBindingsServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
-    * @var  bool
-    */
-    protected $defer = true;
-
     /**
     * @var  array
     */
