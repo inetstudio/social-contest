@@ -46,7 +46,7 @@ class PrizesController extends Controller implements PrizesControllerContract
     }
 
     /**
-     * Добавление объекта.
+     * Создание объекта.
      *
      * @return FormResponseContract
      */

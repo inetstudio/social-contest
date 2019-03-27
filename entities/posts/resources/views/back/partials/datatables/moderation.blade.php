@@ -5,7 +5,7 @@
 @endphp
 
 <div class="btn-group">
-    <button data-toggle="dropdown" class="btn btn-xs btn-default dropdown-toggle" aria-expanded="false">Статус <span class="caret"></span></button>
+    <button data-toggle="dropdown" class="btn btn-xs btn-default dropdown-toggle" aria-expanded="false">Статус</button>
     <ul class="dropdown-menu">
         @foreach ($statuses as $statusAlias => $statusName)
             @if ($statusAlias != $item['status']['alias'])

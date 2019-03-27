@@ -46,7 +46,7 @@ class StagesController extends Controller implements StagesControllerContract
     }
 
     /**
-     * Добавление объекта.
+     * Создание объекта.
      *
      * @return FormResponseContract
      */

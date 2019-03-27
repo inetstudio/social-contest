@@ -1,6 +1,6 @@
-<li>
+<li class="breadcrumb-item">
     <span>Конкурс по постам</span>
 </li>
-<li>
+<li class="breadcrumb-item">
     <a href="{{ route('back.social-contest.tags.index') }}">Теги</a>
 </li>

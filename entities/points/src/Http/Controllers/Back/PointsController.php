@@ -46,7 +46,7 @@ class PointsController extends Controller implements PointsControllerContract
     }
 
     /**
-     * Добавление объекта.
+     * Создание объекта.
      *
      * @return FormResponseContract
      */

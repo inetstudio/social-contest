@@ -7,7 +7,7 @@
 
     @if ($item->social->media_type == 'photo')
         <a data-fancybox href="{{ url($item->social->getFirstMediaUrl('media')) }}">
-            <img src="{{ url($item->social->getFirstMediaUrl('media', 'preview_admin_'.$conversion)) }}" class=" m-b-md img-responsive" alt="post_image">
+            <img src="{{ url($item->social->getFirstMediaUrl('media', 'preview_admin_'.$conversion)) }}" class=" m-b-md img-fluid" alt="post_image">
         </a>
     @endif
 
@@ -18,7 +18,7 @@
         @foreach ($media as $mediaItem)
             @if ($mediaItem->mime_type == 'image/jpeg')
                 <a data-fancybox="carousel-{{ $item['id'] }}" href="{{ url($mediaItem->getUrl()) }}" {!! (! $loop->first) ? 'style="display: none"' : '' !!}>
-                    <img src="{{ url($mediaItem->getUrl('preview_admin_'.$conversion)) }}" class=" m-b-md img-responsive" alt="post_image">
+                    <img src="{{ url($mediaItem->getUrl('preview_admin_'.$conversion)) }}" class=" m-b-md img-fluid" alt="post_image">
                 </a>
             @else
                 @php

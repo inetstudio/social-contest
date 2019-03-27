@@ -17,8 +17,10 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add_socialPost_modal">Добавить</button>
-                        <a href="{{ route('back.social-contest.posts.export') }}" class="btn btn-sm btn-success">Экспорт</a>
+                        <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#add_socialPost_modal">Добавить</button>
+                        <div class="ibox-tools">
+                            <a href="{{ route('back.social-contest.posts.export') }}" class="btn btn-xs btn-primary">Экспорт</a>
+                        </div>
                     </div>
                     <div class="ibox-content">
                         <div class="sk-spinner sk-spinner-double-bounce">
