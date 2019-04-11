@@ -37,7 +37,7 @@ class StatusesService extends BaseService implements StatusesServiceContract
 
         $item = $this->repository->save($request->only($this->repository->getModel()->getFillable()), $id);
 
-        app()->make('InetStudio\Classifiers\Entries\Contracts\Services\Back\EntriesServiceContract')
+        app()->make('InetStudio\Classifiers\Entries\Contracts\Services\Back\ItemsServiceContract')
             ->attachToObject($request, $item);
 
         event(app()->makeWith('InetStudio\SocialContest\Statuses\Contracts\Events\Back\ModifyStatusEventContract', [

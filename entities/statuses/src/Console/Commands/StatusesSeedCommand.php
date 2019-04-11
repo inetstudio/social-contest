@@ -33,7 +33,7 @@ class StatusesSeedCommand extends Command
      */
     public function handle(): void
     {
-        $groupsService = app()->make('InetStudio\Classifiers\Groups\Contracts\Services\Back\GroupsServiceContract');
+        $groupsService = app()->make('InetStudio\Classifiers\Groups\Contracts\Services\Back\ItemsServiceContract');
 
         $statuses = [
             [
@@ -74,7 +74,7 @@ class StatusesSeedCommand extends Command
 
         $now = Carbon::now()->format('Y-m-d H:m:s');
 
-        $group = $groupsService->model::updateOrCreate([
+        $group = $groupsService->getModel()::updateOrCreate([
             'name' => 'Тип статуса социального поста',
         ], [
             'alias' => 'social_post_status_types',
