@@ -2,7 +2,7 @@
 
 namespace InetStudio\SocialContest\Posts\Http\Controllers\Back;
 
-use App\Http\Controllers\Controller;
+use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Posts\ModerateResponseContract;
 use InetStudio\SocialContest\Posts\Contracts\Http\Controllers\Back\PostsModerateControllerContract;
 

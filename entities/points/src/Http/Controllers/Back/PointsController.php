@@ -2,7 +2,7 @@
 
 namespace InetStudio\SocialContest\Points\Http\Controllers\Back;
 
-use App\Http\Controllers\Controller;
+use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Points\Contracts\Http\Requests\Back\SavePointRequestContract;
 use InetStudio\SocialContest\Points\Contracts\Http\Controllers\Back\PointsControllerContract;
 use InetStudio\SocialContest\Points\Contracts\Http\Responses\Back\Points\FormResponseContract;

@@ -2,7 +2,7 @@
 
 namespace InetStudio\SocialContest\Tags\Http\Controllers\Back;
 
-use App\Http\Controllers\Controller;
+use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Tags\Contracts\Http\Requests\Back\SaveTagRequestContract;
 use InetStudio\SocialContest\Tags\Contracts\Http\Controllers\Back\TagsControllerContract;
 use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Tags\FormResponseContract;

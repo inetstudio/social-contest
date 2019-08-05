@@ -2,7 +2,7 @@
 
 namespace InetStudio\SocialContest\Prizes\Http\Controllers\Back;
 
-use App\Http\Controllers\Controller;
+use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\SavePrizeRequestContract;
 use InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back\PrizesControllerContract;
 use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\FormResponseContract;

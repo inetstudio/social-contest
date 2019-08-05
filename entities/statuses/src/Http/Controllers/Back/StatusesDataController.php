@@ -2,7 +2,7 @@
 
 namespace InetStudio\SocialContest\Statuses\Http\Controllers\Back;
 
-use App\Http\Controllers\Controller;
+use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Statuses\Contracts\Http\Controllers\Back\StatusesDataControllerContract;
 
 /**

@@ -3,7 +3,7 @@
 namespace InetStudio\SocialContest\Posts\Http\Controllers\Back;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Posts\Contracts\Http\Requests\Back\SavePostRequestContract;
 use InetStudio\SocialContest\Posts\Contracts\Http\Controllers\Back\PostsControllerContract;
 use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Posts\FormResponseContract;

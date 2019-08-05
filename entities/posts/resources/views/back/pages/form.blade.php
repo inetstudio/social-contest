@@ -83,7 +83,7 @@
                                                         'title' => 'Статус',
                                                     ],
                                                     'field' => [
-                                                        'class' => 'select2 form-control',
+                                                        'class' => 'select2-drop form-control',
                                                         'data-placeholder' => 'Выберите статус',
                                                         'style' => 'width: 100%',
                                                     ],

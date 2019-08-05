@@ -4,7 +4,7 @@ namespace InetStudio\SocialContest\Statuses\Http\Controllers\Back;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Statuses\Contracts\Http\Controllers\Back\StatusesUtilityControllerContract;
 
 /**
