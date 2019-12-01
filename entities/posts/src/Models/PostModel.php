@@ -152,21 +152,6 @@ class PostModel extends Model implements PostModelContract, Auditable
     }
 
     /**
-     * Отношение "многие ко многим" с моделью баллов.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function points()
-    {
-        return $this->belongsToMany(
-            app()->make('InetStudio\SocialContest\Points\Contracts\Models\PointModelContract'),
-            'social_contest_posts_points',
-            'post_id',
-            'point_id'
-        )->withPivot('tag_id')->withTimestamps();
-    }
-
-    /**
      * Should the timestamps be audited?
      *
      * @var bool

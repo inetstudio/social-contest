@@ -80,21 +80,6 @@ class TagModel extends Model implements TagModelContract, Auditable
     }
 
     /**
-     * Отношение "многие ко многим" с моделью баллов.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function points()
-    {
-        return $this->belongsToMany(
-            app()->make('InetStudio\SocialContest\Points\Contracts\Models\PointModelContract'),
-            'social_contest_tags_points', 
-            'tag_id', 
-            'point_id'
-        )->withPivot('post_id')->withTimestamps();
-    }
-
-    /**
      * Should the timestamps be audited?
      *
      * @var bool
