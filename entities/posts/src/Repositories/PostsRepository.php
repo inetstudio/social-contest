@@ -20,7 +20,7 @@ class PostsRepository extends BaseRepository implements PostsRepositoryContract
     {
         $this->model = $model;
 
-        $this->defaultColumns = ['id', 'hash', 'social_type', 'social_id', 'status_id'];
+        $this->defaultColumns = ['id', 'user_id', 'hash', 'social_type', 'social_id', 'status_id'];
         $this->relations = [
             'status' => function ($query) {
                 $query->select(['id', 'name', 'alias', 'color_class']);

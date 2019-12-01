@@ -6,6 +6,7 @@ use Rutorika\Sortable\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use InetStudio\ACL\Users\Models\Traits\HasUser;
 use InetStudio\AdminPanel\Models\Traits\HasJSONColumns;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 
@@ -34,7 +35,7 @@ class PostModel extends Model implements PostModelContract, Auditable
      * @var array
      */
     protected $fillable = [
-        'hash', 'social_type', 'social_id', 'status_id', 'position', 'search_data',
+        'user_id', 'hash', 'social_type', 'social_id', 'status_id', 'position', 'search_data',
     ];
 
     /**
@@ -56,6 +57,16 @@ class PostModel extends Model implements PostModelContract, Auditable
     protected $casts = [
         'search_data' => 'array',
     ];
+
+    /**
+     * Сеттер атрибута user_id.
+     *
+     * @param $value
+     */
+    public function setUserIdAttribute($value)
+    {
+        $this->attributes['user_id'] = (int) strip_tags($value);
+    }
 
     /**
      * Сеттер атрибута hash.
@@ -150,6 +161,8 @@ class PostModel extends Model implements PostModelContract, Auditable
             'tag_id'
         )->withPivot('point_id')->withTimestamps();
     }
+
+    use HasUser;
 
     /**
      * Should the timestamps be audited?
