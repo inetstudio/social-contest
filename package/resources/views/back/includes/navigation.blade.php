@@ -5,7 +5,6 @@
         @include('admin.module.social-contest.statuses::back.includes.package_navigation')
         @include('admin.module.social-contest.stages::back.includes.package_navigation')
         @include('admin.module.social-contest.prizes::back.includes.package_navigation')
-        @include('admin.module.social-contest.points::back.includes.package_navigation')
         @include('admin.module.social-contest.tags::back.includes.package_navigation')
 </ul>
 </li>

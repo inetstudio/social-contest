@@ -21,14 +21,6 @@ class CreateSocialContestTagsTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        Schema::create('social_contest_tags_points', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('tag_id')->unsigned()->index();
-            $table->integer('point_id')->unsigned()->index();
-            $table->integer('post_id')->unsigned()->index();
-            $table->timestamps();
-        });
     }
 
     /**
@@ -38,7 +30,6 @@ class CreateSocialContestTagsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('social_contest_tags_points');
         Schema::dropIfExists('social_contest_tags');
     }
 }
