@@ -2,7 +2,7 @@
 
 namespace InetStudio\SocialContest\Console\Commands;
 
-use InetStudio\AdminPanel\Console\Commands\BaseSetupCommand;
+use InetStudio\AdminPanel\Base\Console\Commands\BaseSetupCommand;
 
 /**
  * Class SetupCommand.
@@ -40,11 +40,6 @@ class SetupCommand extends BaseSetupCommand
                 'type' => 'artisan',
                 'description' => '',
                 'command' => 'inetstudio:vkontakte:setup',
-            ],
-            [
-                'type' => 'artisan',
-                'description' => 'Social contest points setup',
-                'command' => 'inetstudio:social-contest:points:setup',
             ],
             [
                 'type' => 'artisan',

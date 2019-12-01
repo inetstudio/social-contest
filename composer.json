@@ -19,7 +19,6 @@
     "autoload": {
       "psr-4": {
         "InetStudio\\SocialContest\\": "package/src",
-        "InetStudio\\SocialContest\\Points\\": "entities/points/src",
         "InetStudio\\SocialContest\\Posts\\": "entities/posts/src",
         "InetStudio\\SocialContest\\Prizes\\": "entities/prizes/src",
         "InetStudio\\SocialContest\\Stages\\": "entities/stages/src",
@@ -31,8 +30,6 @@
         "laravel": {
             "providers": [
                 "InetStudio\\SocialContest\\Providers\\SocialContestServiceProvider",
-                "InetStudio\\SocialContest\\Points\\Providers\\PointsBindingsServiceProvider",
-                "InetStudio\\SocialContest\\Points\\Providers\\PointsServiceProvider",
                 "InetStudio\\SocialContest\\Posts\\Providers\\PostsBindingsServiceProvider",
                 "InetStudio\\SocialContest\\Posts\\Providers\\PostsServiceProvider",
                 "InetStudio\\SocialContest\\Prizes\\Providers\\PrizesBindingsServiceProvider",
