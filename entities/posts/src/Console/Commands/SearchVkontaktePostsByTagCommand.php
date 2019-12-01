@@ -94,7 +94,7 @@ class SearchVkontaktePostsByTagCommand extends Command
                     $mediaTypes = ['video', 'photo', 'link'];
                     break;
                 default:
-                    $mediaTypes = $configType;
+                    $mediaTypes[] = $configType;
                     break;
             }
         }
