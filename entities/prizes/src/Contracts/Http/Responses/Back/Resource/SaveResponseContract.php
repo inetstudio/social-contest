@@ -1,6 +1,6 @@
 <?php
 
-namespace InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes;
+namespace InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource;
 
 /**
  * Interface SaveResponseContract.

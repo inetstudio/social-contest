@@ -1,10 +1,10 @@
 <?php
 
-namespace InetStudio\SocialContest\Prizes\Http\Responses\Back\Prizes;
+namespace InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource;
 
 use Illuminate\View\View;
 use Illuminate\Contracts\Support\Responsable;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\IndexResponseContract;
+use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\IndexResponseContract;
 
 /**
  * Class IndexResponse.

@@ -12,8 +12,6 @@ class StatusesServiceProvider extends ServiceProvider
 {
     /**
      * Загрузка сервиса.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -25,8 +23,6 @@ class StatusesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация команд.
-     *
-     * @return void
      */
     protected function registerConsoleCommands(): void
     {
@@ -40,8 +36,6 @@ class StatusesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация ресурсов.
-     *
-     * @return void
      */
     protected function registerPublishes(): void
     {
@@ -57,8 +51,6 @@ class StatusesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация путей.
-     *
-     * @return void
      */
     protected function registerRoutes(): void
     {
@@ -67,8 +59,6 @@ class StatusesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация представлений.
-     *
-     * @return void
      */
     protected function registerViews(): void
     {

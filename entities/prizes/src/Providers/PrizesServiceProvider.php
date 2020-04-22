@@ -12,8 +12,6 @@ class PrizesServiceProvider extends ServiceProvider
 {
     /**
      * Загрузка сервиса.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -25,8 +23,6 @@ class PrizesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация команд.
-     *
-     * @return void
      */
     protected function registerConsoleCommands(): void
     {
@@ -39,8 +35,6 @@ class PrizesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация ресурсов.
-     *
-     * @return void
      */
     protected function registerPublishes(): void
     {
@@ -56,8 +50,6 @@ class PrizesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация путей.
-     *
-     * @return void
      */
     protected function registerRoutes(): void
     {
@@ -66,8 +58,6 @@ class PrizesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация представлений.
-     *
-     * @return void
      */
     protected function registerViews(): void
     {

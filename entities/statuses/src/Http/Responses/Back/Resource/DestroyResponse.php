@@ -1,10 +1,10 @@
 <?php
 
-namespace InetStudio\SocialContest\Prizes\Http\Responses\Back\Prizes;
+namespace InetStudio\SocialContest\Statuses\Http\Responses\Back\Resource;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Support\Responsable;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\DestroyResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resource\DestroyResponseContract;
 
 /**
  * Class DestroyResponse.

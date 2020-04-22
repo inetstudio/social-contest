@@ -1,10 +1,10 @@
 <?php
 
-namespace InetStudio\SocialContest\Statuses\Http\Responses\Back\Statuses;
+namespace InetStudio\SocialContest\Statuses\Http\Responses\Back\Resource;
 
 use Illuminate\View\View;
 use Illuminate\Contracts\Support\Responsable;
-use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Statuses\IndexResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resource\IndexResponseContract;
 
 /**
  * Class IndexResponse.

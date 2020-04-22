@@ -1,11 +1,11 @@
 <?php
 
-namespace InetStudio\SocialContest\Prizes\Http\Responses\Back\Prizes;
+namespace InetStudio\SocialContest\Statuses\Http\Responses\Back\Resource;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Support\Responsable;
-use InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\SaveResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Models\StatusModelContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resource\SaveResponseContract;
 
 /**
  * Class SaveResponse.
@@ -13,16 +13,16 @@ use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\SaveRes
 class SaveResponse implements SaveResponseContract, Responsable
 {
     /**
-     * @var PrizeModelContract
+     * @var StatusModelContract
      */
     protected $item;
 
     /**
      * SaveResponse constructor.
      *
-     * @param PrizeModelContract $item
+     * @param StatusModelContract $item
      */
-    public function __construct(PrizeModelContract $item)
+    public function __construct(StatusModelContract $item)
     {
         $this->item = $item;
     }
@@ -36,7 +36,7 @@ class SaveResponse implements SaveResponseContract, Responsable
      */
     public function toResponse($request): RedirectResponse
     {
-        return response()->redirectToRoute('back.social-contest.prizes.edit', [
+        return response()->redirectToRoute('back.social-contest.statuses.edit', [
             $this->item->fresh()->id,
         ]);
     }

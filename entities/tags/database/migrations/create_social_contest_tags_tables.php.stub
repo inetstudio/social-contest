@@ -10,8 +10,7 @@ class CreateSocialContestTagsTables extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
+
      */
     public function up()
     {
@@ -25,8 +24,7 @@ class CreateSocialContestTagsTables extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
+
      */
     public function down()
     {

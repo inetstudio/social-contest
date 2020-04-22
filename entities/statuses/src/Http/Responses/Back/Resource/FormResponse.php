@@ -1,10 +1,10 @@
 <?php
 
-namespace InetStudio\SocialContest\Prizes\Http\Responses\Back\Prizes;
+namespace InetStudio\SocialContest\Statuses\Http\Responses\Back\Resource;
 
 use Illuminate\View\View;
 use Illuminate\Contracts\Support\Responsable;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\FormResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resource\FormResponseContract;
 
 /**
  * Class FormResponse.
@@ -35,6 +35,6 @@ class FormResponse implements FormResponseContract, Responsable
      */
     public function toResponse($request): View
     {
-        return view('admin.module.social-contest.prizes::back.pages.form', $this->data);
+        return view('admin.module.social-contest.statuses::back.pages.form', $this->data);
     }
 }

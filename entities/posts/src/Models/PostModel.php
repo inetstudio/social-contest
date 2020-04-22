@@ -127,7 +127,7 @@ class PostModel extends Model implements PostModelContract, Auditable
     {
         return $this->hasOne(
             app()->make('InetStudio\SocialContest\Statuses\Contracts\Models\StatusModelContract'),
-            'id', 
+            'id',
             'status_id'
         );
     }
@@ -141,8 +141,8 @@ class PostModel extends Model implements PostModelContract, Auditable
     {
         return $this->belongsToMany(
             app()->make('InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract'),
-            'social_contest_posts_prizes', 
-            'post_id', 
+            'social_contest_posts_prizes',
+            'post_id',
             'prize_id'
         )->withPivot(['stage_id', 'date'])->withTimestamps();
     }

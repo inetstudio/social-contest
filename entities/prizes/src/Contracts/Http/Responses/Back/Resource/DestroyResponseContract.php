@@ -1,6 +1,6 @@
 <?php
 
-namespace InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Statuses;
+namespace InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource;
 
 /**
  * Interface DestroyResponseContract.

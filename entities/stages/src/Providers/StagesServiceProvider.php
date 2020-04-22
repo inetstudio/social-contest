@@ -12,8 +12,7 @@ class StagesServiceProvider extends ServiceProvider
 {
     /**
      * Загрузка сервиса.
-     *
-     * @return void
+
      */
     public function boot(): void
     {
@@ -25,8 +24,7 @@ class StagesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация команд.
-     *
-     * @return void
+
      */
     protected function registerConsoleCommands(): void
     {
@@ -39,8 +37,7 @@ class StagesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация ресурсов.
-     *
-     * @return void
+
      */
     protected function registerPublishes(): void
     {
@@ -56,8 +53,7 @@ class StagesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация путей.
-     *
-     * @return void
+
      */
     protected function registerRoutes(): void
     {
@@ -66,8 +62,7 @@ class StagesServiceProvider extends ServiceProvider
 
     /**
      * Регистрация представлений.
-     *
-     * @return void
+
      */
     protected function registerViews(): void
     {

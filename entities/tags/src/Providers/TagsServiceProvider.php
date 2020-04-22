@@ -11,8 +11,7 @@ class TagsServiceProvider extends ServiceProvider
 {
     /**
      * Загрузка сервиса.
-     *
-     * @return void
+
      */
     public function boot(): void
     {
@@ -24,8 +23,7 @@ class TagsServiceProvider extends ServiceProvider
 
     /**
      * Регистрация команд.
-     *
-     * @return void
+
      */
     protected function registerConsoleCommands(): void
     {
@@ -38,8 +36,7 @@ class TagsServiceProvider extends ServiceProvider
 
     /**
      * Регистрация ресурсов.
-     *
-     * @return void
+
      */
     protected function registerPublishes(): void
     {
@@ -55,8 +52,7 @@ class TagsServiceProvider extends ServiceProvider
 
     /**
      * Регистрация путей.
-     *
-     * @return void
+
      */
     protected function registerRoutes(): void
     {
@@ -65,8 +61,7 @@ class TagsServiceProvider extends ServiceProvider
 
     /**
      * Регистрация представлений.
-     *
-     * @return void
+
      */
     protected function registerViews(): void
     {
