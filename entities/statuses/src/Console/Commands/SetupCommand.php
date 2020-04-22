@@ -34,7 +34,7 @@ class SetupCommand extends BaseSetupCommand
                 'description' => 'Publish migrations',
                 'command' => 'vendor:publish',
                 'params' => [
-                    '--provider' => 'InetStudio\SocialContest\Statuses\Providers\StatusesServiceProvider',
+                    '--provider' => 'InetStudio\SocialContest\Statuses\Providers\ServiceProvider',
                     '--tag' => 'migrations',
                 ],
             ],

@@ -5,10 +5,10 @@ namespace InetStudio\SocialContest\Statuses\Http\Controllers\Back;
 use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Statuses\Contracts\Http\Requests\Back\SaveStatusRequestContract;
 use InetStudio\SocialContest\Statuses\Contracts\Http\Controllers\Back\StatusesControllerContract;
-use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Statuses\FormResponseContract;
-use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Statuses\SaveResponseContract;
-use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Statuses\IndexResponseContract;
-use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Statuses\DestroyResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resource\FormResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resource\SaveResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resource\IndexResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resource\DestroyResponseContract;
 
 /**
  * Class StatusesController.

@@ -5,10 +5,10 @@ namespace InetStudio\SocialContest\Stages\Http\Controllers\Back;
 use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Stages\Contracts\Http\Requests\Back\SaveStageRequestContract;
 use InetStudio\SocialContest\Stages\Contracts\Http\Controllers\Back\StagesControllerContract;
-use InetStudio\SocialContest\Stages\Contracts\Http\Responses\Back\Stages\FormResponseContract;
-use InetStudio\SocialContest\Stages\Contracts\Http\Responses\Back\Stages\SaveResponseContract;
-use InetStudio\SocialContest\Stages\Contracts\Http\Responses\Back\Stages\IndexResponseContract;
-use InetStudio\SocialContest\Stages\Contracts\Http\Responses\Back\Stages\DestroyResponseContract;
+use InetStudio\SocialContest\Stages\Contracts\Http\Responses\Back\Resource\FormResponseContract;
+use InetStudio\SocialContest\Stages\Contracts\Http\Responses\Back\Resource\SaveResponseContract;
+use InetStudio\SocialContest\Stages\Contracts\Http\Responses\Back\Resource\IndexResponseContract;
+use InetStudio\SocialContest\Stages\Contracts\Http\Responses\Back\Resource\DestroyResponseContract;
 
 /**
  * Class StagesController.

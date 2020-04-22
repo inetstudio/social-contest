@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Posts\Contracts\Http\Requests\Back\SavePostRequestContract;
 use InetStudio\SocialContest\Posts\Contracts\Http\Controllers\Back\PostsControllerContract;
-use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Posts\FormResponseContract;
-use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Posts\SaveResponseContract;
-use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Posts\IndexResponseContract;
-use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Posts\AddPostResponseContract;
-use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Posts\DestroyResponseContract;
+use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Resource\FormResponseContract;
+use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Resource\SaveResponseContract;
+use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Resource\IndexResponseContract;
+use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Resource\AddPostResponseContract;
+use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Resource\DestroyResponseContract;
 
 /**
  * Class PostsController.

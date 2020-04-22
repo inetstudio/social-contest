@@ -69,7 +69,7 @@ class SetupCommand extends BaseSetupCommand
                 'description' => 'Publish config',
                 'command' => 'vendor:publish',
                 'params' => [
-                    '--provider' => 'InetStudio\SocialContest\Providers\SocialContestServiceProvider',
+                    '--provider' => 'InetStudio\SocialContest\Providers\ServiceProvider',
                     '--tag' => 'config',
                 ],
             ],

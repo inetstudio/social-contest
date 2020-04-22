@@ -5,10 +5,10 @@ namespace InetStudio\SocialContest\Tags\Http\Controllers\Back;
 use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Tags\Contracts\Http\Requests\Back\SaveTagRequestContract;
 use InetStudio\SocialContest\Tags\Contracts\Http\Controllers\Back\TagsControllerContract;
-use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Tags\FormResponseContract;
-use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Tags\SaveResponseContract;
-use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Tags\IndexResponseContract;
-use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Tags\DestroyResponseContract;
+use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Resource\FormResponseContract;
+use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Resource\SaveResponseContract;
+use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Resource\IndexResponseContract;
+use InetStudio\SocialContest\Tags\Contracts\Http\Responses\Back\Resource\DestroyResponseContract;
 
 /**
  * Class TagsController.

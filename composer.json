@@ -29,17 +29,17 @@
     "extra": {
         "laravel": {
             "providers": [
-                "InetStudio\\SocialContest\\Providers\\SocialContestServiceProvider",
-                "InetStudio\\SocialContest\\Posts\\Providers\\PostsBindingsServiceProvider",
-                "InetStudio\\SocialContest\\Posts\\Providers\\PostsServiceProvider",
-                "InetStudio\\SocialContest\\Prizes\\Providers\\PrizesBindingsServiceProvider",
-                "InetStudio\\SocialContest\\Prizes\\Providers\\PrizesServiceProvider",
-                "InetStudio\\SocialContest\\Stages\\Providers\\StagesBindingsServiceProvider",
-                "InetStudio\\SocialContest\\Stages\\Providers\\StagesServiceProvider",
-                "InetStudio\\SocialContest\\Statuses\\Providers\\StatusesBindingsServiceProvider",
-                "InetStudio\\SocialContest\\Statuses\\Providers\\StatusesServiceProvider",
-                "InetStudio\\SocialContest\\Tags\\Providers\\TagsBindingsServiceProvider",
-                "InetStudio\\SocialContest\\Tags\\Providers\\TagsServiceProvider"
+                "InetStudio\\SocialContest\\Providers\\ServiceProvider",
+                "InetStudio\\SocialContest\\Posts\\Providers\\BindingsServiceProvider",
+                "InetStudio\\SocialContest\\Posts\\Providers\\ServiceProvider",
+                "InetStudio\\SocialContest\\Prizes\\Providers\\BindingsServiceProvider",
+                "InetStudio\\SocialContest\\Prizes\\Providers\\ServiceProvider",
+                "InetStudio\\SocialContest\\Stages\\Providers\\BindingsServiceProvider",
+                "InetStudio\\SocialContest\\Stages\\Providers\\ServiceProvider",
+                "InetStudio\\SocialContest\\Statuses\\Providers\\BindingsServiceProvider",
+                "InetStudio\\SocialContest\\Statuses\\Providers\\ServiceProvider",
+                "InetStudio\\SocialContest\\Tags\\Providers\\BindingsServiceProvider",
+                "InetStudio\\SocialContest\\Tags\\Providers\\ServiceProvider"
             ]
         }
     }

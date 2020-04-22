@@ -5,10 +5,10 @@ namespace InetStudio\SocialContest\Prizes\Http\Controllers\Back;
 use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\SavePrizeRequestContract;
 use InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back\PrizesControllerContract;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\FormResponseContract;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\SaveResponseContract;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\IndexResponseContract;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Prizes\DestroyResponseContract;
+use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\FormResponseContract;
+use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\SaveResponseContract;
+use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\IndexResponseContract;
+use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\DestroyResponseContract;
 
 /**
  * Class PrizesController.
