@@ -38,7 +38,7 @@ class ItemData extends FlexibleDataTransferObject implements ItemDataContract
             'uuid' => $request->has('uuid') ? Uuid::fromString($request->input('uuid')) : Str::uuid(),
             'social_type' => trim(strip_tags($request->input('social_type', ''))),
             'social_id' => (int) $request->input('social_id', 0),
-            'status_id' => (int) $request->input('status_id'),
+            'status_id' => (int) $request->input('status_id', 1),
             'search_data' => Arr::wrap($request->input('search_data', [])),
             'additional_info' => Arr::wrap($request->input('additional_info', [])),
         ]);
@@ -46,6 +46,9 @@ class ItemData extends FlexibleDataTransferObject implements ItemDataContract
 
     public static function fromItem(PostModelContract $item): self
     {
-        return new self($item->toArray());
+        $data = $item->toArray();
+        $data['uuid'] = Uuid::fromString($data['uuid']);
+
+        return new self($data);
     }
 }
