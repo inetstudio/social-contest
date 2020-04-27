@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace InetStudio\SocialContest\Posts\Services;
 
 use Illuminate\Support\Collection;
-use InetStudio\SocialContest\Posts\DTO\ItemData;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 use InetStudio\SocialContest\Posts\Contracts\Services\ItemsServiceContract;
 use InetStudio\SocialContest\Statuses\Contracts\Models\StatusModelContract;
@@ -72,6 +71,6 @@ class ItemsService implements ItemsServiceContract
      */
     public function getItemsByStatus(StatusModelContract $status): Collection
     {
-        return $this->model::with('social')->where('status_id', $status['id'])->get();
+        return $this->model::with('social', 'social.media', 'social.user')->where('status_id', $status['id'])->get();
     }
 }

@@ -164,7 +164,7 @@ class SearchVkontaktePostsByTagCommand extends Command implements SearchVkontakt
      */
     protected function getBlockedUsers(): array
     {
-        $blockStatus = $this->statusesService->getItemsByType('blocked')->first();
+        $blockStatus = $this->statusesService->getModel()->where('alias', '=', 'blocked')->first();
 
         if ($blockStatus) {
             $blockedPosts = $this->itemsService->getItemsByStatus($blockStatus);

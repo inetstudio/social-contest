@@ -165,7 +165,7 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
      */
     protected function getBlockedUsers(): array
     {
-        $blockStatus = $this->statusesService->getItemsByType('blocked')->first();
+        $blockStatus = $this->statusesService->getModel()->where('alias', '=', 'blocked')->first();
 
         if ($blockStatus) {
             $blockedPosts = $this->itemsService->getItemsByStatus($blockStatus);
