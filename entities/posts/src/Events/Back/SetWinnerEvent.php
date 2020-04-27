@@ -3,6 +3,7 @@
 namespace InetStudio\SocialContest\Posts\Events\Back;
 
 use Illuminate\Queue\SerializesModels;
+use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 use InetStudio\SocialContest\Posts\Contracts\Events\Back\SetWinnerEventContract;
 
 /**
@@ -12,15 +13,18 @@ class SetWinnerEvent implements SetWinnerEventContract
 {
     use SerializesModels;
 
-    public $object;
+    /**
+     * @var PostModelContract
+     */
+    public PostModelContract $item;
 
     /**
      * SetWinnerEvent constructor.
      *
-     * @param $object
+     * @param  PostModelContract  $item
      */
-    public function __construct($object)
+    public function __construct(PostModelContract $item)
     {
-        $this->object = $object;
+        $this->item = $item;
     }
 }

@@ -30,10 +30,12 @@ class ServiceProvider extends BaseServiceProvider
             return;
         }
 
-        $this->commands([
-            'InetStudio\SocialContest\Statuses\Console\Commands\SetupCommand',
-            'InetStudio\SocialContest\Statuses\Console\Commands\StatusesSeedCommand',
-        ]);
+        $this->commands(
+            [
+                'InetStudio\SocialContest\Statuses\Console\Commands\SetupCommand',
+                'InetStudio\SocialContest\Statuses\Console\Commands\StatusesSeedCommand',
+            ]
+        );
     }
 
     /**
@@ -41,14 +43,23 @@ class ServiceProvider extends BaseServiceProvider
      */
     protected function registerPublishes(): void
     {
-        if ($this->app->runningInConsole()) {
-            if (! Schema::hasTable('social_contest_statuses')) {
-                $timestamp = date('Y_m_d_His', time());
-                $this->publishes([
-                    __DIR__.'/../../database/migrations/create_social_contest_statuses_tables.php.stub' => database_path('migrations/'.$timestamp.'_create_social_contest_statuses_tables.php'),
-                ], 'migrations');
-            }
+        if (! $this->app->runningInConsole()) {
+            return;
         }
+
+        if (Schema::hasTable('social_contest_statuses')) {
+            return;
+        }
+
+        $timestamp = date('Y_m_d_His', time());
+        $this->publishes(
+            [
+                __DIR__.'/../../database/migrations/create_social_contest_statuses_tables.php.stub' => database_path(
+                    'migrations/'.$timestamp.'_create_social_contest_statuses_tables.php'
+                ),
+            ],
+            'migrations'
+        );
     }
 
     /**

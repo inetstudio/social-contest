@@ -2,42 +2,57 @@
 
 namespace InetStudio\SocialContest\Prizes\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 /**
  * Class BindingsServiceProvider.
  */
-class BindingsServiceProvider extends ServiceProvider implements DeferrableProvider
+class BindingsServiceProvider extends BaseServiceProvider implements DeferrableProvider
 {
     /**
-    * @var  array
-    */
-    public $bindings = [
-        'InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back\PrizesControllerContract' => 'InetStudio\SocialContest\Prizes\Http\Controllers\Back\PrizesController',
-        'InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back\PrizesDataControllerContract' => 'InetStudio\SocialContest\Prizes\Http\Controllers\Back\PrizesDataController',
-        'InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back\PrizesUtilityControllerContract' => 'InetStudio\SocialContest\Prizes\Http\Controllers\Back\PrizesUtilityController',
-        'InetStudio\SocialContest\Prizes\Contracts\Events\Back\ModifyPrizeEventContract' => 'InetStudio\SocialContest\Prizes\Events\Back\ModifyPrizeEvent',
-        'InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract' => 'InetStudio\SocialContest\Prizes\Models\PrizeModel',
-        'InetStudio\SocialContest\Prizes\Contracts\Repositories\PrizesRepositoryContract' => 'InetStudio\SocialContest\Prizes\Repositories\PrizesRepository',
-        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\SavePrizeRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\SavePrizeRequest',
+     * @var array
+     */
+    public array $bindings = [
+        'InetStudio\SocialContest\Prizes\Contracts\Events\Back\ModifyItemEventContract' => 'InetStudio\SocialContest\Prizes\Events\Back\ModifyItemEvent',
+        'InetStudio\SocialContest\Prizes\Contracts\DTO\ItemDataContract' => 'InetStudio\SocialContest\Prizes\DTO\ItemData',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back\ResourceControllerContract' => 'InetStudio\SocialContest\Prizes\Http\Controllers\Back\ResourceController',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back\DataControllerContract' => 'InetStudio\SocialContest\Prizes\Http\Controllers\Back\DataController',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back\UtilityControllerContract' => 'InetStudio\SocialContest\Prizes\Http\Controllers\Back\UtilityController',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Data\GetIndexDataRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Data\GetIndexDataRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Resource\CreateRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Resource\CreateRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Resource\DestroyRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Resource\DestroyRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Resource\EditRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Resource\EditRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Resource\IndexRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Resource\IndexRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Resource\ShowRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Resource\ShowRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Resource\StoreRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Resource\StoreRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Resource\UpdateRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Resource\UpdateRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Utility\SuggestionsRequestContract' => 'InetStudio\SocialContest\Prizes\Http\Requests\Back\Utility\SuggestionsRequest',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Resources\Back\Resource\Index\ItemResourceContract' => 'InetStudio\SocialContest\Prizes\Http\Resources\Back\Resource\Index\ItemResource',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Resources\Back\Utility\Suggestions\AutocompleteItemResourceContract' => 'InetStudio\SocialContest\Prizes\Http\Resources\Back\Utility\Suggestions\AutocompleteItemResource',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Resources\Back\Utility\Suggestions\ItemResourceContract' => 'InetStudio\SocialContest\Prizes\Http\Resources\Back\Utility\Suggestions\ItemResource',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Resources\Back\Utility\Suggestions\ItemsCollectionContract' => 'InetStudio\SocialContest\Prizes\Http\Resources\Back\Utility\Suggestions\ItemsCollection',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Data\GetIndexDataResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Data\GetIndexDataResponse',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\CreateResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\CreateResponse',
         'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\DestroyResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\DestroyResponse',
-        'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\FormResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\FormResponse',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\EditResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\EditResponse',
         'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\IndexResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\IndexResponse',
-        'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\SaveResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\SaveResponse',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\ShowResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\ShowResponse',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\StoreResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\StoreResponse',
+        'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\UpdateResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource\UpdateResponse',
         'InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Utility\SuggestionsResponseContract' => 'InetStudio\SocialContest\Prizes\Http\Responses\Back\Utility\SuggestionsResponse',
-        'InetStudio\SocialContest\Prizes\Contracts\Services\Back\PrizesDataTableServiceContract' => 'InetStudio\SocialContest\Prizes\Services\Back\PrizesDataTableService',
-        'InetStudio\SocialContest\Prizes\Contracts\Services\Back\PrizesObserverServiceContract' => 'InetStudio\SocialContest\Prizes\Services\Back\PrizesObserverService',
-        'InetStudio\SocialContest\Prizes\Contracts\Services\Back\PrizesServiceContract' => 'InetStudio\SocialContest\Prizes\Services\Back\PrizesService',
-        'InetStudio\SocialContest\Prizes\Contracts\Services\Front\PrizesServiceContract' => 'InetStudio\SocialContest\Prizes\Services\Front\PrizesService',
-        'InetStudio\SocialContest\Prizes\Contracts\Transformers\Back\PrizeTransformerContract' => 'InetStudio\SocialContest\Prizes\Transformers\Back\PrizeTransformer',
-        'InetStudio\SocialContest\Prizes\Contracts\Transformers\Back\SuggestionTransformerContract' => 'InetStudio\SocialContest\Prizes\Transformers\Back\SuggestionTransformer',
+        'InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract' => 'InetStudio\SocialContest\Prizes\Models\PrizeModel',
+        'InetStudio\SocialContest\Prizes\Contracts\Services\Back\DataTables\IndexServiceContract' => 'InetStudio\SocialContest\Prizes\Services\Back\DataTables\IndexService',
+        'InetStudio\SocialContest\Prizes\Contracts\Services\Back\ItemsServiceContract' => 'InetStudio\SocialContest\Prizes\Services\Back\ItemsService',
+        'InetStudio\SocialContest\Prizes\Contracts\Services\Back\UtilityServiceContract' => 'InetStudio\SocialContest\Prizes\Services\Back\UtilityService',
+        'InetStudio\SocialContest\Prizes\Contracts\Services\Front\ItemsServiceContract' => 'InetStudio\SocialContest\Prizes\Services\Front\ItemsService',
+        'InetStudio\SocialContest\Prizes\Contracts\Services\ItemsServiceContract' => 'InetStudio\SocialContest\Prizes\Services\ItemsService',
     ];
 
     /**
      * Получить сервисы от провайдера.
      *
-     * @return  array
+     * @return array
      */
     public function provides()
     {

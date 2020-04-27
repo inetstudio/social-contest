@@ -2,20 +2,32 @@
 
 namespace InetStudio\SocialContest\Prizes\Models;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract;
 
 /**
  * Class PrizeModel.
  */
-class PrizeModel extends Model implements PrizeModelContract, Auditable
+class PrizeModel extends Model implements PrizeModelContract
 {
+    use Auditable;
     use SoftDeletes;
-    use \OwenIt\Auditing\Auditable;
 
-    const MATERIAL_TYPE = 'social_contest_prize';
+    /**
+     * Тип сущности.
+     */
+    const ENTITY_TYPE = 'social_contest_prize';
+
+    /**
+     * Should the timestamps be audited?
+     *
+     * @var bool
+     */
+    protected bool $auditTimestamps = true;
 
     /**
      * Связанная с моделью таблица.
@@ -30,7 +42,8 @@ class PrizeModel extends Model implements PrizeModelContract, Auditable
      * @var array
      */
     protected $fillable = [
-        'name', 'alias', 'description',
+        'name',
+        'alias',
     ];
 
     /**
@@ -45,64 +58,33 @@ class PrizeModel extends Model implements PrizeModelContract, Auditable
     ];
 
     /**
-     * Сеттер атрибута name.
-     *
-     * @param $value
-     */
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = strip_tags($value);
-    }
-
-    /**
-     * Сеттер атрибута alias.
-     *
-     * @param $value
-     */
-    public function setAliasAttribute($value)
-    {
-        $this->attributes['alias'] = strip_tags($value);
-    }
-
-    /**
-     * Сеттер атрибута numeric.
-     *
-     * @param $value
-     */
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['description'] = trim(str_replace("&nbsp;", ' ', strip_tags((isset($value['text'])) ? $value['text'] : (! is_array($value) ? $value : ''))));
-    }
-    
-    /**
-     * Тип материала.
+     * Геттер атрибута type.
      *
      * @return string
      */
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
-        return self::MATERIAL_TYPE;
-    }    
-
-    /**
-     * Отношение "многие ко многим" с моделью поста.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function posts()
-    {
-        return $this->belongsToMany(
-            app()->make('InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract'),
-            'social_contest_posts_prizes', 
-            'prize_id', 
-            'post_id'
-        )->withTimestamps();
+        return self::ENTITY_TYPE;
     }
 
     /**
-     * Should the timestamps be audited?
+     * Связь с моделью поста.
      *
-     * @var bool
+     * @return BelongsToMany
+     *
+     * @throws BindingResolutionException
      */
-    protected $auditTimestamps = true;
+    public function posts(): BelongsToMany
+    {
+        $checkModel = app()->make('InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract');
+
+        return $this->belongsToMany(
+            get_class($checkModel),
+            'social_contest_posts_prizes',
+            'prize_id',
+            'post_id'
+        )
+            ->withPivot(['confirmed', 'date_start', 'date_end'])
+            ->withTimestamps();
+    }
 }

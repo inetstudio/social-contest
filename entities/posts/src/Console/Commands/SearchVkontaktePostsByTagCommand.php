@@ -2,18 +2,26 @@
 
 namespace InetStudio\SocialContest\Posts\Console\Commands;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use InetStudio\SocialContest\Posts\DTO\ItemData;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByTags;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByPostId;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByUserId;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByCreatedGt;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByCreatedLt;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByMediaType;
+use InetStudio\Vkontakte\Posts\Contracts\Services\Back\PostsServiceContract;
+use InetStudio\Vkontakte\Users\Contracts\Services\Back\UsersServiceContract;
+use InetStudio\SocialContest\Posts\Contracts\Services\Back\ItemsServiceContract;
+use InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchVkontaktePostsByTagCommandContract;
+use InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract as StatusesServiceContract;
 
 /**
  * Class SearchVkontaktePostsByTagCommand.
  */
-class SearchVkontaktePostsByTagCommand extends Command
+class SearchVkontaktePostsByTagCommand extends Command implements SearchVkontaktePostsByTagCommandContract
 {
     /**
      * Имя команды.
@@ -30,20 +38,42 @@ class SearchVkontaktePostsByTagCommand extends Command
     protected $description = 'Search vkontakte posts by tag';
 
     /**
-     * @var array
+     * @var PostsServiceContract
      */
-    protected $services = [];
+    protected PostsServiceContract $vkontaktePosts;
 
     /**
-     * SearchVkontaktePostsByTagCommand constructor.
+     * @var UsersServiceContract
      */
-    public function __construct()
-    {
+    protected UsersServiceContract $vkontakteUsers;
+
+    /**
+     * @var ItemsServiceContract
+     */
+    protected ItemsServiceContract $itemsService;
+
+    protected StatusesServiceContract $statusesService;
+
+    /**
+     * SearchInstagramPostsByTagCommand constructor.
+     *
+     * @param  PostsServiceContract  $vkontaktePosts
+     * @param  UsersServiceContract  $vkontakteUsers
+     * @param  ItemsServiceContract  $itemsService
+     * @param  StatusesServiceContract $statusesService
+     */
+    public function __construct(
+        PostsServiceContract $vkontaktePosts,
+        UsersServiceContract $vkontakteUsers,
+        ItemsServiceContract $itemsService,
+        StatusesServiceContract $statusesService
+    ) {
         parent::__construct();
 
-        $this->services['vkontaktePosts'] = app()->make('InetStudio\Vkontakte\Posts\Contracts\Services\Back\PostsServiceContract');
-        $this->services['vkontakteUsers'] = app()->make('InetStudio\Vkontakte\Users\Contracts\Services\Back\UsersServiceContract');
-        $this->services['contestPosts'] = app()->make('InetStudio\SocialContest\Posts\Contracts\Services\Back\PostsServiceContract');
+        $this->vkontaktePosts = $vkontaktePosts;
+        $this->vkontakteUsers = $vkontakteUsers;
+        $this->itemsService = $itemsService;
+        $this->statusesService = $statusesService;
     }
 
     /**
@@ -52,26 +82,53 @@ class SearchVkontaktePostsByTagCommand extends Command
     public function handle(): void
     {
         $blockedUsersIDs = $this->getBlockedUsers();
-        $existIDs = $this->services['vkontaktePosts']->repository->getAllItems()->pluck('post_id')->toArray();
+        $existIDs = $this->vkontaktePosts->repository->getAllItems()->pluck('post_id')->toArray();
         $mediaTypes = $this->getMediaTypes();
         $startTime = config('social_contest.start');
         $endTime = config('social_contest.end');
         $tags = config('social_contest.tags');
 
         foreach ($tags as $tagArr) {
-            $vkontaktePosts = $this->services['vkontaktePosts']->getPostsByTag($tagArr, [
-                'usersIDs' => new ByUserId($blockedUsersIDs),
-                'IDs' => new ByPostId($existIDs),
-                'mediaType' => new ByMediaType($mediaTypes),
-                'startTime' => new ByCreatedGt(($startTime) ? strtotime($startTime) : null),
-                'endTime' => new ByCreatedLt(($endTime) ? strtotime($endTime) : null),
-                'tags' => new ByTags($tagArr),
-            ]);
+            $socialPosts = $this->vkontaktePosts->getPostsByTag(
+                $tagArr,
+                [
+                    'usersIDs' => new ByUserId($blockedUsersIDs),
+                    'IDs' => new ByPostId($existIDs),
+                    'mediaType' => new ByMediaType($mediaTypes),
+                    'startTime' => new ByCreatedGt(($startTime) ? strtotime($startTime) : null),
+                    'endTime' => new ByCreatedLt(($endTime) ? strtotime($endTime) : null),
+                    'tags' => new ByTags($tagArr),
+                ]
+            );
 
-            $vkontaktePosts = $this->services['vkontakteUsers']->attachUsersToPosts($vkontaktePosts);
+            $socialPosts = $this->vkontakteUsers->attachUsersToPosts($socialPosts);
 
-            foreach ($vkontaktePosts as $vkontaktePost) {
-                $this->services['contestPosts']->createPostFromVkontakte($vkontaktePost);
+            foreach ($socialPosts as $socialPost) {
+                $this->vkontakteUsers->save($socialPost['user']);
+                $savedSocialPost = $this->vkontaktePosts->save($socialPost);
+
+                $searchData = $savedSocialPost->additional_info;
+                Arr::forget(
+                    $searchData,
+                    [
+                        'attachments', 'likes', 'reposts', 'views',
+                        'post_source', 'comments',
+                    ]
+                );
+
+                $defaultStatus = $this->statusesService->getItemsByType('default')->first();
+
+                $data = new ItemData(
+                    [
+                        'uuid' => Str::uuid(),
+                        'social_type' => get_class($savedSocialPost),
+                        'social_id' => $savedSocialPost->id,
+                        'status_id' => $defaultStatus->id ?? 1,
+                        'search_data' => $searchData,
+                    ]
+                );
+
+                $this->itemsService->save($data);
             }
         }
     }
@@ -107,12 +164,10 @@ class SearchVkontaktePostsByTagCommand extends Command
      */
     protected function getBlockedUsers(): array
     {
-        $statusesService = app()->make('InetStudio\SocialContest\Statuses\Contracts\Services\Back\StatusesServiceContract');
-
-        $blockStatus = $statusesService->getStatusByType('block');
+        $blockStatus = $this->statusesService->getItemsByType('blocked')->first();
 
         if ($blockStatus) {
-            $blockedPosts = $this->services['contestPosts']->repository->getItemsQuery()->with('social')->where('status_id', $blockStatus->id)->get();
+            $blockedPosts = $this->itemsService->getItemsByStatus($blockStatus);
             $userIds = [];
 
             foreach ($blockedPosts as $blockedPost) {

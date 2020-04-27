@@ -16,29 +16,21 @@ class CreateSocialContestPostsTables extends Migration
         Schema::create('social_contest_posts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->default(0);
-            $table->uuid('hash');
+            $table->uuid('uuid');
             $table->morphs('social');
             $table->bigInteger('status_id')->unsigned()->index()->default(0);
-            $table->integer('position');
             $table->json('search_data')->nullable();
+            $table->json('additional_info')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Schema::create('social_contest_posts_tags', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('post_id')->unsigned()->index();
-            $table->integer('tag_id')->unsigned()->index();
-            $table->integer('point_id')->unsigned()->index()->default(0);
-            $table->timestamps();
-        });
-
         Schema::create('social_contest_posts_prizes', function (Blueprint $table) {
-            $table->increments('id');
             $table->integer('post_id')->unsigned()->index();
             $table->integer('prize_id')->unsigned()->index();
-            $table->integer('stage_id')->unsigned()->index();
-            $table->date('date')->nullable()->index();
+            $table->smallInteger('confirmed')->unsigned()->default(0);
+            $table->timestamp('date_start')->nullable();
+            $table->timestamp('date_end')->nullable();
             $table->timestamps();
         });
     }
@@ -49,7 +41,6 @@ class CreateSocialContestPostsTables extends Migration
     public function down()
     {
         Schema::dropIfExists('social_contest_posts_prizes');
-        Schema::dropIfExists('social_contest_posts_tags');
         Schema::dropIfExists('social_contest_posts');
     }
 }

@@ -2,25 +2,33 @@
 
 namespace InetStudio\SocialContest\Posts\Models;
 
-use Rutorika\Sortable\SortableTrait;
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InetStudio\ACL\Users\Models\Traits\HasUser;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use InetStudio\AdminPanel\Models\Traits\HasJSONColumns;
+use InetStudio\SocialContest\Prizes\Models\Traits\HasPrizes;
+use InetStudio\SocialContest\Statuses\Models\Traits\HasStatus;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 
 /**
  * Class PostModel.
  */
-class PostModel extends Model implements PostModelContract, Auditable
+class PostModel extends Model implements PostModelContract
 {
+    use Auditable;
     use SoftDeletes;
-    use SortableTrait;
     use HasJSONColumns;
-    use \OwenIt\Auditing\Auditable;
 
     const MATERIAL_TYPE = 'social_contest_post';
+
+    /**
+     * Should the timestamps be audited?
+     *
+     * @var bool
+     */
+    protected bool $auditTimestamps = true;
 
     /**
      * Связанная с моделью таблица.
@@ -35,7 +43,8 @@ class PostModel extends Model implements PostModelContract, Auditable
      * @var array
      */
     protected $fillable = [
-        'user_id', 'hash', 'social_type', 'social_id', 'status_id', 'position', 'search_data',
+        'user_id', 'uuid', 'social_type', 'social_id',
+        'status_id', 'search_data', 'additional_info',
     ];
 
     /**
@@ -56,54 +65,15 @@ class PostModel extends Model implements PostModelContract, Auditable
      */
     protected $casts = [
         'search_data' => 'array',
+        'additional_info' => 'array',
     ];
-
-    /**
-     * Сеттер атрибута user_id.
-     *
-     * @param $value
-     */
-    public function setUserIdAttribute($value)
-    {
-        $this->attributes['user_id'] = (int) strip_tags($value);
-    }
-
-    /**
-     * Сеттер атрибута hash.
-     *
-     * @param $value
-     */
-    public function setHashAttribute($value)
-    {
-        $this->attributes['hash'] = strip_tags($value);
-    }
-
-    /**
-     * Сеттер атрибута status_id.
-     *
-     * @param $value
-     */
-    public function setStatusIdAttribute($value)
-    {
-        $this->attributes['status_id'] = (int) strip_tags($value);
-    }
-
-    /**
-     * Сеттер атрибута search_data.
-     *
-     * @param $value
-     */
-    public function setSearchDataAttribute($value)
-    {
-        $this->attributes['search_data'] = json_encode((array) $value);
-    }
 
     /**
      * Тип материала.
      *
      * @return string
      */
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         return self::MATERIAL_TYPE;
     }
@@ -111,63 +81,14 @@ class PostModel extends Model implements PostModelContract, Auditable
     /**
      * Полиморфное отношение с моделями социальных постов.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return MorphTo
      */
-    public function social()
+    public function social(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
-     * Отношение "один к одному" с моделью статуса.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function status()
-    {
-        return $this->hasOne(
-            app()->make('InetStudio\SocialContest\Statuses\Contracts\Models\StatusModelContract'),
-            'id',
-            'status_id'
-        );
-    }
-
-    /**
-     * Отношение "один к одному" с моделью приза.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function prizes()
-    {
-        return $this->belongsToMany(
-            app()->make('InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract'),
-            'social_contest_posts_prizes',
-            'post_id',
-            'prize_id'
-        )->withPivot(['stage_id', 'date'])->withTimestamps();
-    }
-
-    /**
-     * Отношение "многие ко многим" с моделью тега.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function tags()
-    {
-        return $this->belongsToMany(
-            app()->make('InetStudio\SocialContest\Tags\Contracts\Models\TagModelContract'),
-            'social_contest_posts_tags',
-            'post_id',
-            'tag_id'
-        )->withPivot('point_id')->withTimestamps();
-    }
-
     use HasUser;
-
-    /**
-     * Should the timestamps be audited?
-     *
-     * @var bool
-     */
-    protected $auditTimestamps = true;
+    use HasPrizes;
+    use HasStatus;
 }

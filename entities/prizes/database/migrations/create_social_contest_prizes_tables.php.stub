@@ -10,7 +10,6 @@ class CreateSocialContestPrizesTables extends Migration
 {
     /**
      * Run the migrations.
-
      */
     public function up()
     {
@@ -18,7 +17,6 @@ class CreateSocialContestPrizesTables extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('alias');
-            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,10 +24,9 @@ class CreateSocialContestPrizesTables extends Migration
 
     /**
      * Reverse the migrations.
-
      */
     public function down()
     {
-        Schema::dropIfExists('social_contest_prizes');
+        Schema::drop('social_contest_prizes');
     }
 }

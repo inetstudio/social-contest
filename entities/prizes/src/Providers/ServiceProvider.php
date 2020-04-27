@@ -30,9 +30,11 @@ class ServiceProvider extends BaseServiceProvider
             return;
         }
 
-        $this->commands([
-            'InetStudio\SocialContest\Prizes\Console\Commands\SetupCommand',
-        ]);
+        $this->commands(
+            [
+                'InetStudio\SocialContest\Prizes\Console\Commands\SetupCommand',
+            ]
+        );
     }
 
     /**
@@ -40,14 +42,23 @@ class ServiceProvider extends BaseServiceProvider
      */
     protected function registerPublishes(): void
     {
-        if ($this->app->runningInConsole()) {
-            if (! Schema::hasTable('social_contest_prizes')) {
-                $timestamp = date('Y_m_d_His', time());
-                $this->publishes([
-                    __DIR__.'/../../database/migrations/create_social_contest_prizes_tables.php.stub' => database_path('migrations/'.$timestamp.'_create_social_contest_prizes_tables.php'),
-                ], 'migrations');
-            }
+        if (! $this->app->runningInConsole()) {
+            return;
         }
+
+        if (Schema::hasTable('social_contest_prizes')) {
+            return;
+        }
+
+        $timestamp = date('Y_m_d_His', time());
+        $this->publishes(
+            [
+                __DIR__.'/../../database/migrations/create_social_contest_prizes_tables.php.stub' => database_path(
+                    'migrations/'.$timestamp.'_create_social_contest_prizes_tables.php'
+                ),
+            ],
+            'migrations'
+        );
     }
 
     /**

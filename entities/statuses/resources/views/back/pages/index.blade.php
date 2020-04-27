@@ -1,8 +1,10 @@
-@extends('admin::back.layouts.app')
-
 @php
+    /** @var Yajra\DataTables\Html\Builder $table */
+
     $title = 'Статусы';
 @endphp
+
+@extends('admin::back.layouts.app')
 
 @section('title', $title)
 
@@ -17,7 +19,8 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <a href="{{ route('back.social-contest.statuses.create') }}" class="btn btn-primary btn-sm">Добавить</a>
+                        <a href="{{ route('back.social-contest.statuses.create') }}"
+                           class="btn btn-sm btn-primary btn-lg">Добавить</a>
                     </div>
                     <div class="ibox-content">
                         <div class="table-responsive">
@@ -30,6 +33,6 @@
     </div>
 @endsection
 
-@pushonce('scripts:datatables_statuses_index')
+@pushonce('scripts:datatables_social_contest_statuses_index')
     {!! $table->scripts() !!}
 @endpushonce

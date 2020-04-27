@@ -2,22 +2,34 @@
 
 namespace InetStudio\SocialContest\Statuses\Models;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use InetStudio\Classifiers\Models\Traits\HasClassifiers;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\SocialContest\Statuses\Contracts\Models\StatusModelContract;
 
 /**
  * Class StatusModel.
  */
-class StatusModel extends Model implements StatusModelContract, Auditable
+class StatusModel extends Model implements StatusModelContract
 {
+    use Auditable;
     use SoftDeletes;
     use HasClassifiers;
-    use \OwenIt\Auditing\Auditable;
 
-    const MATERIAL_TYPE = 'social_contest_status';
+    /**
+     * Тип сущности.
+     */
+    const ENTITY_TYPE = 'social_contest_status';
+
+    /**
+     * Should the timestamps be audited?
+     *
+     * @var bool
+     */
+    protected bool $auditTimestamps = true;
 
     /**
      * Связанная с моделью таблица.
@@ -32,7 +44,10 @@ class StatusModel extends Model implements StatusModelContract, Auditable
      * @var array
      */
     protected $fillable = [
-        'name', 'alias', 'color_class', 'description', 'color_class',
+        'name',
+        'alias',
+        'description',
+        'color_class',
     ];
 
     /**
@@ -47,63 +62,30 @@ class StatusModel extends Model implements StatusModelContract, Auditable
     ];
 
     /**
-     * Сеттер атрибута name.
-     *
-     * @param $value
-     */
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = strip_tags($value);
-    }
-
-    /**
-     * Сеттер атрибута alias.
-     *
-     * @param $value
-     */
-    public function setAliasAttribute($value)
-    {
-        $this->attributes['alias'] = strip_tags($value);
-    }
-
-    /**
-     * Сеттер атрибута numeric.
-     *
-     * @param $value
-     */
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['description'] = trim(str_replace("&nbsp;", ' ', strip_tags((isset($value['text'])) ? $value['text'] : (! is_array($value) ? $value : ''))));
-    }
-
-    /**
-     * Тип материала.
+     * Геттер атрибута type.
      *
      * @return string
      */
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
-        return self::MATERIAL_TYPE;
+        return self::ENTITY_TYPE;
     }
 
     /**
-     * Отношение "один ко многим" с моделью поста.
+     * Отношение "один ко многим" с моделью постов.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
+     *
+     * @throws BindingResolutionException
      */
-    public function posts()
+    public function posts(): HasMany
     {
+        $postModel = app()->make('InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract');
+
         return $this->hasMany(
-            app()->make('InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract'),
+            get_class($postModel),
             'status_id',
             'id'
         );
     }
-
-    /**
-     * Should the timestamps be audited?
-     *
-     * @var bool
-     */
-    protected $auditTimestamps = true;
 }

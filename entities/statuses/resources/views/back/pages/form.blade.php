@@ -1,8 +1,10 @@
-@extends('admin::back.layouts.app')
-
 @php
-    $title = ($item->id) ? 'Просмотр статуса' : 'Создание статуса';
+    /** @var InetStudio\SocialContest\Statuses\Contracts\Models\StatusModelContract $item */
+
+    $title = ($item['id']) ? 'Просмотр статуса' : 'Создание статуса';
 @endphp
+
+@extends('admin::back.layouts.app')
 
 @section('title', $title)
 
@@ -23,15 +25,15 @@
 
         {!! Form::info() !!}
 
-            {!! Form::open(['url' => (! $item->id) ? route('back.social-contest.statuses.store') : route('back.social-contest.statuses.update', [$item->id]), 'id' => 'mainForm', 'enctype' => 'multipart/form-data']) !!}
-    
-            @if ($item->id)
+        {!! Form::open(['url' => (! $item['id']) ? route('back.social-contest.statuses.store') : route('back.social-contest.statuses.update', [$item['id']]), 'id' => 'mainForm']) !!}
+
+            @if ($item['id'])
                 {{ method_field('PUT') }}
             @endif
-    
-            {!! Form::hidden('status_id', (! $item->id) ? '' : $item->id, ['id' => 'object-id']) !!}
-    
-            {!! Form::hidden('status_type', get_class($item), ['id' => 'object-type']) !!}
+
+            {!! Form::hidden('id', $item['id'] ?? 0, ['id' => 'object-id']) !!}
+
+            {!! Form::hidden('type', get_class($item), ['id' => 'object-type']) !!}
 
             <div class="ibox">
                 <div class="ibox-title">
@@ -44,42 +46,43 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h5 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#mainAccordion" href="#collapseMain" aria-expanded="true">Основная информация</a>
+                                            <a data-toggle="collapse" data-parent="#mainAccordion" href="#collapseMain"
+                                               aria-expanded="true">Основная информация</a>
                                         </h5>
                                     </div>
                                     <div id="collapseMain" class="collapse show" aria-expanded="true">
                                         <div class="panel-body">
 
-                                            {!! Form::string('name', $item->name, [
+                                            {!! Form::string('name', $item['name'], [
                                                 'label' => [
                                                     'title' => 'Название',
                                                 ],
                                             ]) !!}
 
-                                            {!! Form::string('alias', $item->alias, [
+                                            {!! Form::string('alias', $item['alias'], [
                                                 'label' => [
                                                     'title' => 'Алиас',
                                                 ],
                                             ]) !!}
 
-                                            {!! Form::wysiwyg('description', $item->description, [
+                                            {!! Form::wysiwyg('description', $item['description'], [
                                                 'label' => [
                                                     'title' => 'Описание',
                                                 ],
                                                 'field' => [
-                                                    'class' => 'tinymce',
+                                                    'class' => 'tinymce-simple',
+                                                    'type' => 'simple',
                                                     'id' => 'description',
-                                                    'hasImages' => false,
                                                 ],
                                             ]) !!}
 
                                             {!! Form::classifiers('', $item, [
                                                 'label' => [
-                                                    'title' => 'Тип статуса',
+                                                    'title' => 'Свойства статуса',
                                                 ],
                                                 'field' => [
-                                                    'placeholder' => 'Выберите типы статуса',
-                                                    'group' => 'Тип статуса социального поста',
+                                                    'placeholder' => 'Выберите свойства статуса',
+                                                    'group' => 'social_contest_status_type',
                                                 ],
                                             ]) !!}
 
@@ -118,6 +121,5 @@
             </div>
 
         {!! Form::close()!!}
-
     </div>
 @endsection

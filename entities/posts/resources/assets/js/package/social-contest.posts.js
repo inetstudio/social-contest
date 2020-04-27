@@ -2,51 +2,58 @@ let posts = {};
 
 posts.init = function () {
     $(document).ready(function () {
-        let $moderationTable = $('#moderation table');
-        let $tableContent = $('#moderation .ibox-content');
+        let $moderationTable = $('#social_contest_posts table');
 
         $moderationTable.on('draw.dt', function () {
             new Clipboard('.clipboard');
         });
 
-        $moderationTable.on('click', 'a.post-moderate, button.post-block', function (event) {
+        $moderationTable.on('click', 'a.post-moderate', function (event) {
             event.preventDefault();
 
-            let url = $(this).attr('data-target');
+            let button = $(this),
+                url = button.attr('href'),
+                reason = button.attr('data-reason');
 
-            $tableContent.toggleClass('sk-loading');
+            $('#social_contest_posts .ibox-content').toggleClass('sk-loading');
 
-            $.ajax({
-                url: url,
-                method: 'POST',
-                dataType: 'json',
-                success: function (data) {
-                    $tableContent.toggleClass('sk-loading');
+            if (typeof reason !== typeof undefined && reason !== false) {
+                swal.fire({
+                    title: 'Введите причину изменения статуса',
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    showLoaderOnConfirm: true,
+                    preConfirm: (inputReason) => {
+                        if (inputReason === '') {
+                            return {
+                                dismiss: 'cancel'
+                            };
+                        }
 
-                    if (data.success === true) {
-                        let ids = data.ids;
+                        let data = {
+                            additional_info: {
+                                statusReason: inputReason
+                            }
+                        };
 
-                        ids.forEach(function (id) {
-                            let row = $('#post_row_'+id);
+                        return moderate(url, data);
+                    },
+                    allowOutsideClick: () => ! swal.isLoading()
+                }).then((result) => {
+                    processModerateResponse(result);
+                });
+            } else {
+                new Promise(function(resolve, reject) {
+                    let result = moderate(url, {});
 
-                            row.find('td:nth-child(1)').html(data.status);
-                            row.find('td:nth-child(2)').html(data.moderation[id]);
-                        });
-
-                        swal({
-                            title: "Статус изменен",
-                            type: "success"
-                        });
-                    } else {
-                        showError('При модерации произошла ошибка');
-                    }
-                },
-                error: function () {
-                    $tableContent.toggleClass('sk-loading');
-
-                    showError('При модерации произошла ошибка');
-                }
-            });
+                    resolve(result);
+                }).then((result) => {
+                    processModerateResponse(result);
+                });
+            }
         });
 
         $('#add_socialPost_modal .add').on('click', function (event) {
@@ -109,6 +116,64 @@ posts.init = function () {
             });
         }
     });
+
+    function moderate(url, data)
+    {
+        return axios.post(url, data)
+            .then(response => {
+                $('#social_contest_posts .ibox-content').toggleClass('sk-loading');
+
+                if (response.status !== 200) {
+                    throw new Error(response.statusText);
+                }
+
+                return response.data;
+            })
+            .catch(error => {
+                $('#social_contest_posts .ibox-content').toggleClass('sk-loading');
+
+                swal.fire({
+                    title: 'Ошибка',
+                    text: 'При модерации произошла ошибка',
+                    type: 'error',
+                });
+            });
+    }
+
+    function processModerateResponse(result)
+    {
+        result = _.get(result, 'value', result);
+
+        if (result.dismiss === 'cancel') {
+            $('#social_contest_posts .ibox-content').toggleClass('sk-loading');
+
+            return;
+        }
+
+        if (result.success === true) {
+            result.items.forEach(function (item) {
+                let row = $('#post_row_'+item.id);
+
+                for (let column in item){
+                    if (item.hasOwnProperty(column)) {
+                        row.find('.post-'+column).html(item[column]);
+                    }
+                }
+            });
+
+            swal.fire({
+                title: 'Статус изменен',
+                type: 'success',
+            });
+        } else {
+            swal.fire({
+                title: 'Ошибка',
+                text: 'При модерации произошла ошибка',
+                type: 'error',
+            });
+        }
+    }
+
 };
 
 module.exports = posts;

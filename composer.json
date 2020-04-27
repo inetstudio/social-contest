@@ -13,17 +13,14 @@
         "inetstudio/admin-panel": "^7.0",
         "inetstudio/classifiers": "^7.0",
         "inetstudio/instagram": "^7.0",
-        "inetstudio/vkontakte": "^7.0",
-        "rutorika/sortable": "^7.0"
+        "inetstudio/vkontakte": "^7.0"
     },
     "autoload": {
       "psr-4": {
         "InetStudio\\SocialContest\\": "package/src",
         "InetStudio\\SocialContest\\Posts\\": "entities/posts/src",
         "InetStudio\\SocialContest\\Prizes\\": "entities/prizes/src",
-        "InetStudio\\SocialContest\\Stages\\": "entities/stages/src",
-        "InetStudio\\SocialContest\\Statuses\\": "entities/statuses/src",
-        "InetStudio\\SocialContest\\Tags\\": "entities/tags/src"
+        "InetStudio\\SocialContest\\Statuses\\": "entities/statuses/src"
       }
     },
     "extra": {
@@ -34,12 +31,8 @@
                 "InetStudio\\SocialContest\\Posts\\Providers\\ServiceProvider",
                 "InetStudio\\SocialContest\\Prizes\\Providers\\BindingsServiceProvider",
                 "InetStudio\\SocialContest\\Prizes\\Providers\\ServiceProvider",
-                "InetStudio\\SocialContest\\Stages\\Providers\\BindingsServiceProvider",
-                "InetStudio\\SocialContest\\Stages\\Providers\\ServiceProvider",
                 "InetStudio\\SocialContest\\Statuses\\Providers\\BindingsServiceProvider",
-                "InetStudio\\SocialContest\\Statuses\\Providers\\ServiceProvider",
-                "InetStudio\\SocialContest\\Tags\\Providers\\BindingsServiceProvider",
-                "InetStudio\\SocialContest\\Tags\\Providers\\ServiceProvider"
+                "InetStudio\\SocialContest\\Statuses\\Providers\\ServiceProvider"
             ]
         }
     }

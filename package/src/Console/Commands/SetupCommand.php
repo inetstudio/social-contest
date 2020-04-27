@@ -51,18 +51,8 @@ class SetupCommand extends BaseSetupCommand
             ],
             [
                 'type' => 'artisan',
-                'description' => 'Social contest stages setup',
-                'command' => 'inetstudio:social-contest:stages:setup',
-            ],
-            [
-                'type' => 'artisan',
                 'description' => 'Social contest statuses setup',
                 'command' => 'inetstudio:social-contest:statuses:setup',
-            ],
-            [
-                'type' => 'artisan',
-                'description' => 'Social contest tags setup',
-                'command' => 'inetstudio:social-contest:tags:setup',
             ],
             [
                 'type' => 'artisan',

@@ -2,41 +2,47 @@
 
 namespace InetStudio\SocialContest\Prizes\Http\Responses\Back\Resource;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\Request;
+use InetStudio\SocialContest\Prizes\Contracts\Services\Back\ItemsServiceContract;
 use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Resource\DestroyResponseContract;
 
 /**
  * Class DestroyResponse.
  */
-class DestroyResponse implements DestroyResponseContract, Responsable
+class DestroyResponse implements DestroyResponseContract
 {
     /**
-     * @var bool
+     * @var ItemsServiceContract
      */
-    protected $result;
+    protected ItemsServiceContract $resourceService;
 
     /**
      * DestroyResponse constructor.
      *
-     * @param bool $result
+     * @param  ItemsServiceContract  $resourceService
      */
-    public function __construct(bool $result)
+    public function __construct(ItemsServiceContract $resourceService)
     {
-        $this->result = $result;
+        $this->resourceService = $resourceService;
     }
 
     /**
      * Возвращаем ответ при удалении объекта.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  Request  $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|null
      */
-    public function toResponse($request): JsonResponse
+    public function toResponse($request)
     {
-        return response()->json([
-            'success' => $this->result,
-        ]);
+        $id = $request->route('prize');
+
+        $count = $this->resourceService->destroy($id);
+
+        return response()->json(
+            [
+                'success' => ($count > 0),
+            ]
+        );
     }
 }

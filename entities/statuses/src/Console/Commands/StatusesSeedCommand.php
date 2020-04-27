@@ -2,108 +2,120 @@
 
 namespace InetStudio\SocialContest\Statuses\Console\Commands;
 
-use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use InetStudio\SocialContest\Statuses\Models\StatusModel;
+use InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract as StatusesServiceContract;
+use InetStudio\Classifiers\Groups\Contracts\Services\Back\ItemsServiceContract as ClassifiersGroupsServiceContract;
+use InetStudio\Classifiers\Entries\Contracts\Services\Back\ItemsServiceContract as ClassifiersEntriesServiceContract;
 
-/**
- * Class StatusesSeedCommand.
- */
 class StatusesSeedCommand extends Command
 {
-    /**
-     * Имя команды.
-     *
-     * @var string
-     */
     protected $name = 'inetstudio:social-contest:statuses:seed';
 
-    /**
-     * Описание команды.
-     *
-     * @var string
-     */
     protected $description = 'Seed social contest statuses';
 
-    /**
-     * Запуск команды.
-     */
+    protected array $statuses = [
+        [
+            'name' => 'Модерация',
+            'alias' => 'moderation',
+            'description' => 'Посты, ожидающие модерацию',
+            'color_class' => 'warning',
+            'types' => [
+                'social_contest_status_default' => 'Статус по умолчанию',
+                'social_contest_status_check' => 'Проверка',
+            ],
+        ],
+        [
+            'name' => 'Одобрено',
+            'alias' => 'approved',
+            'description' => 'Одобренные посты',
+            'color_class' => 'primary',
+            'types' => [
+                'social_contest_status_final' => 'Финальный статус',
+                'social_contest_status_draw' => 'Участвует в розыгрыше призов',
+            ],
+        ],
+        [
+            'name' => 'Отклонено',
+            'alias' => 'rejected',
+            'description' => 'Отклоненные посты',
+            'color_class' => 'danger',
+            'types' => [
+                'social_contest_status_reason' => 'Необходимо указать причину',
+            ],
+        ],
+        [
+            'name' => 'Заблокировано',
+            'alias' => 'blocked',
+            'description' => 'Заблокированные посты',
+            'color_class' => 'danger',
+            'types' => [
+                'social_contest_status_reason' => 'Необходимо указать причину',
+                'social_contest_status_mass' => 'Массовый перевод',
+            ],
+        ],
+    ];
+
+    protected ClassifiersGroupsServiceContract $groupsService;
+
+    protected ClassifiersEntriesServiceContract $entriesService;
+
+    protected StatusesServiceContract $statusesService;
+
+    public function __construct(
+        ClassifiersGroupsServiceContract $groupsService,
+        ClassifiersEntriesServiceContract $entriesService,
+        StatusesServiceContract $statusesService
+    ) {
+        parent::__construct();
+
+        $this->groupsService = $groupsService;
+        $this->entriesService = $entriesService;
+        $this->statusesService = $statusesService;
+    }
+
     public function handle(): void
     {
-        $groupsService = app()->make('InetStudio\Classifiers\Groups\Contracts\Services\Back\ItemsServiceContract');
-
-        $statuses = [
+        $group = $this->groupsService->getModel()::updateOrCreate(
             [
-                'name' => 'Модерация',
-                'alias' => 'moderation',
-                'css_color' => 'warning',
-                'description' => 'Посты, ожидающие модерацию',
-                'types' => [
-                    'default' => 'Статус по умолчанию',
-                    'check' => 'Проверка',
-                ],
+                'name' => 'Тип статуса конкурсного поста',
             ],
             [
-                'name' => 'Одобрено',
-                'alias' => 'approved',
-                'css_color' => 'primary',
-                'description' => 'Одобренные посты',
-                'types' => [
-                    'main' => 'Основной статус',
-                ],
-            ],
-            [
-                'name' => 'Отклонено',
-                'alias' => 'rejected',
-                'css_color' => 'danger',
-                'description' => 'Отклоненные посты',
-            ],
-            [
-                'name' => 'Заблокировано',
-                'alias' => 'blocked',
-                'css_color' => 'danger',
-                'description' => 'Заблокированные посты',
-                'types' => [
-                    'block' => 'Блокировать',
-                ],
-            ],
-        ];
+                'alias' => 'social_contest_status_type',
+            ]
+        );
 
-        $now = Carbon::now()->format('Y-m-d H:m:s');
+        $entriesIDs = [];
 
-        $group = $groupsService->getModel()::updateOrCreate([
-            'name' => 'Тип статуса социального поста',
-        ], [
-            'alias' => 'social_post_status_types',
-        ]);
+        foreach ($this->statuses as $status) {
+            $data = Arr::except($status, ['types']);
 
-        foreach ($statuses as $status) {
-            $statusObj = StatusModel::updateOrCreate([
-                'name' => $status['name'],
-                'alias' => $status['alias'],
-                'description' => $status['description'],
-                'color_class' => $status['css_color'],
-            ]);
+            $statusObj = $this->statusesService->getModel()::updateOrCreate($data);
 
             $classifiers = [];
-            if (isset($status['types'])) {
-                foreach ($status['types'] as $alias => $value) {
-                    $id = DB::connection('mysql')->table('classifiers_entries')->insertGetId([
-                        'value' => $value,
+            foreach ($status['types'] ?? [] as $alias => $value) {
+                $entry = $this->entriesService->getModel()::updateOrCreate(
+                    [
                         'alias' => $alias,
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ]);
+                    ],
+                    [
+                        'value' => $value,
+                    ]
+                );
 
-                    $group->entries()->attach($id);
-
-                    $classifiers[] = $id;
-                }
+                $classifiers[] = $entry['id'];
+                $entriesIDs[] = $entry['id'];
             }
 
             $statusObj->syncClassifiers($classifiers);
         }
+
+        $currentEntriesIDs = $group->entries()
+            ->pluck('classifiers_entries.id')
+            ->toArray();
+
+        $entriesIDs = array_unique(array_merge($entriesIDs, $currentEntriesIDs));
+        $group->entries()->sync($entriesIDs);
 
         $this->info('Statuses seeding complete.');
     }

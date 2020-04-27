@@ -1,7 +1,8 @@
-@inject('statusesService', 'InetStudio\SocialContest\Statuses\Contracts\Services\Back\StatusesServiceContract')
+@inject('statusesService', 'InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract')
 
 @php
-    $statuses = $statusesService->getAllItems()->pluck('name', 'alias')->toArray();
+    $statuses = $statusesService->getModel()->all()->pluck('name', 'alias')->toArray();
+    $setReasonStatuses = $statusesService->getItemsByType('reason');
 @endphp
 
 <div class="btn-group">
@@ -10,7 +11,7 @@
         @foreach ($statuses as $statusAlias => $statusName)
             @if ($statusAlias != $item['status']['alias'])
                 <li>
-                    <a class="post-moderate" href="#" data-target="{{ route('back.social-contest.posts.moderate', ['id' => $item['id'], 'statusAlias' => $statusAlias]) }}">{{ $statusName }}</a>
+                    <a class="post-moderate" href="{{ route('back.social-contest.posts.moderate', ['id' => $item['id'], 'alias' => $statusAlias]) }}" {{ ($setReasonStatuses->keyBy('alias')->has($statusAlias)) ? 'data-reason' : '' }}>{{ $statusName }}</a>
                 </li>
             @endif
         @endforeach

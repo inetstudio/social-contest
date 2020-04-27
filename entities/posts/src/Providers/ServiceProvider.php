@@ -31,8 +31,8 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         $this->commands([
-            'InetStudio\SocialContest\Posts\Console\Commands\SearchInstagramPostsByTagCommand',
-            'InetStudio\SocialContest\Posts\Console\Commands\SearchVkontaktePostsByTagCommand',
+            'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramPostsByTagCommandContract',
+            'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchVkontaktePostsByTagCommandContract',
             'InetStudio\SocialContest\Posts\Console\Commands\SetupCommand',
         ]);
     }
@@ -42,14 +42,23 @@ class ServiceProvider extends BaseServiceProvider
      */
     protected function registerPublishes(): void
     {
-        if ($this->app->runningInConsole()) {
-            if (! Schema::hasTable('social_contest_posts')) {
-                $timestamp = date('Y_m_d_His', time());
-                $this->publishes([
-                    __DIR__.'/../../database/migrations/create_social_contest_posts_tables.php.stub' => database_path('migrations/'.$timestamp.'_create_social_contest_posts_tables.php'),
-                ], 'migrations');
-            }
+        if (! $this->app->runningInConsole()) {
+            return;
         }
+
+        if (Schema::hasTable('social_contest_posts')) {
+            return;
+        }
+
+        $timestamp = date('Y_m_d_His', time());
+        $this->publishes(
+            [
+                __DIR__.'/../../database/migrations/create_social_contest_posts_tables.php.stub' => database_path(
+                    'migrations/'.$timestamp.'_create_social_contest_posts_tables.php'
+                ),
+            ],
+            'migrations'
+        );
     }
 
     /**

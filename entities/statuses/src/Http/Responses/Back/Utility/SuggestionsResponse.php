@@ -2,39 +2,50 @@
 
 namespace InetStudio\SocialContest\Statuses\Http\Responses\Back\Utility;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use InetStudio\SocialContest\Statuses\Contracts\Services\Back\UtilityServiceContract;
 use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Utility\SuggestionsResponseContract;
 
 /**
  * Class SuggestionsResponse.
  */
-class SuggestionsResponse implements SuggestionsResponseContract, Responsable
+class SuggestionsResponse implements SuggestionsResponseContract
 {
     /**
-     * @var array
+     * @var UtilityServiceContract
      */
-    protected $suggestions;
+    protected UtilityServiceContract $utilityService;
 
     /**
-     * SuggestionsResponse constructor.
+     * CreateResponse constructor.
      *
-     * @param array $suggestions
+     * @param  UtilityServiceContract  $utilityService
      */
-    public function __construct(array $suggestions)
+    public function __construct(UtilityServiceContract $utilityService)
     {
-        $this->suggestions = $suggestions;
+        $this->utilityService = $utilityService;
     }
 
     /**
-     * Возвращаем slug по заголовку объекта.
+     * Возвращаем подсказки для поля.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  Request  $request
      *
-     * @return JsonResponse
+     * @return \InetStudio\SocialContest\Statuses\Contracts\Http\Resources\Back\Utility\Suggestions\ItemsCollectionContract|mixed|\Symfony\Component\HttpFoundation\Response
+     *
+     * @throws BindingResolutionException
      */
-    public function toResponse($request): JsonResponse
+    public function toResponse($request)
     {
-        return response()->json($this->suggestions);
+        $search = $request->get('q', '') ?? '';
+        $type = $request->get('type', '') ?? '';
+
+        $resource = $this->utilityService->getSuggestions($search);
+
+        return app()->make(
+            'InetStudio\SocialContest\Statuses\Contracts\Http\Resources\Back\Utility\Suggestions\ItemsCollectionContract',
+            compact('resource', 'type')
+        );
     }
 }
