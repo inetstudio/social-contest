@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace InetStudio\SocialContest\Posts\DTO;
 
+use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\UuidInterface;
 use Spatie\DataTransferObject\FlexibleDataTransferObject;
 use InetStudio\SocialContest\Posts\Contracts\DTO\ItemDataContract;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
@@ -16,7 +19,7 @@ class ItemData extends FlexibleDataTransferObject implements ItemDataContract
 
     public int $user_id = 0;
 
-    public string $uuid = '';
+    public UuidInterface $uuid;
 
     public string $social_type = '';
 
@@ -32,7 +35,7 @@ class ItemData extends FlexibleDataTransferObject implements ItemDataContract
     {
         return new self([
             'id' => (int) $request->input('id', 0),
-            'uuid' => trim(strip_tags($request->input('uuid', ''))),
+            'uuid' => $request->has('uuid') ? Uuid::fromString($request->input('uuid')) : Str::uuid(),
             'social_type' => trim(strip_tags($request->input('social_type', ''))),
             'social_id' => (int) $request->input('social_id', 0),
             'status_id' => (int) $request->input('status_id'),
