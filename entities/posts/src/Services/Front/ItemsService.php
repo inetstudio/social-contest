@@ -21,8 +21,8 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
 
     public function getItems(): Collection
     {
-        $finalStatus = $this->statusesService->getItemsByType('final')->first();
+        $statuses = $this->statusesService->getItemsByType('final');
 
-        return $this->getItemsByStatus($finalStatus);
+        return $this->getItemsByStatuses($statuses);
     }
 }
