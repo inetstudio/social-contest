@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\DataTransferObject\FlexibleDataTransferObject;
 use InetStudio\SocialContest\Posts\Contracts\DTO\ItemDataContract;
+use InetStudio\SocialContest\Prizes\DTO\ItemData as PrizeItemData;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 
 class ItemData extends FlexibleDataTransferObject implements ItemDataContract
@@ -31,16 +32,32 @@ class ItemData extends FlexibleDataTransferObject implements ItemDataContract
 
     public array $additional_info = [];
 
-    public static function fromRequest(Request $request): self
+    /**
+     * @var \InetStudio\SocialContest\Prizes\DTO\ItemData[]|null
+     */
+    public $prizes = null;
+
+    /**
+     * @var \InetStudio\SocialContest\Statuses\DTO\ItemData|null
+     */
+    public $status = null;
+
+    public static function prepareData(array $data): self
     {
         return new self([
-            'id' => (int) $request->input('id', 0),
-            'uuid' => $request->has('uuid') ? Uuid::fromString($request->input('uuid')) : Str::uuid(),
-            'social_type' => trim(strip_tags($request->input('social_type', ''))),
-            'social_id' => (int) $request->input('social_id', 0),
-            'status_id' => (int) $request->input('status_id', 1),
-            'search_data' => Arr::wrap($request->input('search_data', [])),
-            'additional_info' => Arr::wrap($request->input('additional_info', [])),
+            'id' => (int) Arr::get($data, 'id', 0),
+            'uuid' => (Arr::has($data, 'uuid')) ? Uuid::fromString(Arr::get($data, 'uuid')) : Str::uuid(),
+            'social_type' => trim(strip_tags(Arr::get($data, 'social_type', ''))),
+            'social_id' => (int) Arr::get($data, 'social_id', 0),
+            'status_id' => (int) Arr::get($data, 'status_id', 1),
+            'search_data' => Arr::wrap(Arr::get($data, 'search_data', [])),
+            'additional_info' => Arr::wrap(Arr::get($data, 'additional_info', [])),
+            'prizes' => Arr::has($data, 'prizes')
+                ? collect(Arr::get($data, 'prizes'))->map(function ($item) {
+                    return PrizeItemData::prepareData($item);
+                })->toArray()
+                : null,
+            'status' => Arr::get($data, 'status'),
         ]);
     }
 

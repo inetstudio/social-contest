@@ -3,26 +3,15 @@
 namespace InetStudio\SocialContest\Posts\Http\Responses\Back\Resource;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use InetStudio\SocialContest\Posts\DTO\ItemData;
 use InetStudio\SocialContest\Posts\Contracts\Services\Back\ItemsServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Resource\UpdateResponseContract;
+use InetStudio\SocialContest\Posts\Contracts\Http\Resources\Back\Resource\Index\ItemResourceContract;
 
-/**
- * Class UpdateResponse.
- */
 class UpdateResponse implements UpdateResponseContract
 {
-    /**
-     * @var ItemsServiceContract
-     */
     protected ItemsServiceContract $resourceService;
 
-    /**
-     * UpdateResponse constructor.
-     *
-     * @param  ItemsServiceContract  $resourceService
-     */
     public function __construct(ItemsServiceContract $resourceService)
     {
         $this->resourceService = $resourceService;
@@ -37,12 +26,15 @@ class UpdateResponse implements UpdateResponseContract
      */
     public function toResponse($request)
     {
-        $data = ItemData::fromRequest($request);
+        $data = ItemData::prepareData($request->all());
 
         $item = $this->resourceService->save($data);
 
-        Session::flash('success', 'Приз «'.$item['name'].'» успешно обновлен');
-
-        return response()->redirectToRoute('back.social-contest.prizes.edit', $item['id']);
+        return app()->make(
+            ItemResourceContract::class,
+            [
+                'resource' => $item,
+            ]
+        );
     }
 }

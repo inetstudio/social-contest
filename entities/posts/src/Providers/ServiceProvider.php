@@ -32,6 +32,7 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->commands([
             'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramPostsByTagCommandContract',
+            'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramStoriesByTagCommandContract',
             'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchVkontaktePostsByTagCommandContract',
             'InetStudio\SocialContest\Posts\Console\Commands\SetupCommand',
         ]);

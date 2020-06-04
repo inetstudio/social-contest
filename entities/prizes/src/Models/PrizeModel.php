@@ -76,10 +76,10 @@ class PrizeModel extends Model implements PrizeModelContract
      */
     public function posts(): BelongsToMany
     {
-        $checkModel = app()->make('InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract');
+        $postModel = app()->make('InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract');
 
         return $this->belongsToMany(
-            get_class($checkModel),
+            get_class($postModel),
             'social_contest_posts_prizes',
             'prize_id',
             'post_id'

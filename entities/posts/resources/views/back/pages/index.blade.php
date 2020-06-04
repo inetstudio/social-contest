@@ -30,17 +30,17 @@
                             <div class="sk-double-bounce2"></div>
                         </div>
                         <div class="table-responsive">
-                            {{ $table->table(['class' => 'table table-striped table-bordered table-hover dataTable']) }}
+                            {{ $table->table(['class' => 'social-contest-posts-table table table-striped table-bordered table-hover dataTable']) }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    @include('admin.module.social-contest.posts::back.modals.add_post')
 @endsection
 
 @pushonce('scripts:datatables_social_contest_posts_index')
     {!! $table->scripts() !!}
 @endpushonce
-
-@include('admin.module.social-contest.posts::back.modals.add_post')

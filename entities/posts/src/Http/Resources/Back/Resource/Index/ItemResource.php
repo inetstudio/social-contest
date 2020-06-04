@@ -26,6 +26,7 @@ class ItemResource extends JsonResource implements ItemResourceContract
         return [
             'DT_RowId' => 'post_row_'.$this['id'],
             'search_data' => '',
+            'id' => $this['id'],
             'status' => view(
                 'admin.module.social-contest.posts::back.partials.datatables.status',
                 [
@@ -36,6 +37,12 @@ class ItemResource extends JsonResource implements ItemResourceContract
                 'admin.module.social-contest.posts::back.partials.datatables.moderation',
                 [
                     'item' => $this,
+                ]
+            )->render(),
+            'prizes' => view(
+                'admin.module.social-contest.posts::back.partials.datatables.prizes',
+                [
+                    'prizes' => $this['prizes'],
                 ]
             )->render(),
             'media' => view(

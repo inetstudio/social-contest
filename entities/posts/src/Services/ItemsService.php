@@ -7,7 +7,6 @@ namespace InetStudio\SocialContest\Posts\Services;
 use Illuminate\Support\Collection;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 use InetStudio\SocialContest\Posts\Contracts\Services\ItemsServiceContract;
-use InetStudio\SocialContest\Statuses\Contracts\Models\StatusModelContract;
 
 class ItemsService implements ItemsServiceContract
 {
@@ -28,15 +27,15 @@ class ItemsService implements ItemsServiceContract
         return new $this->model;
     }
 
-    public function getItemById($id = 0, bool $returnNew = true)
+    public function getItemById($id = 0, bool $returnNew = true): ?PostModelContract
     {
-        return $this->model::find($id) ?? (($returnNew) ? $this->create() : null);
+        return $this->model::with('status', 'prizes', 'social', 'social.media', 'social.user')->find($id) ?? (($returnNew) ? $this->create() : null);
     }
 
     public function getItemsByStatuses(Collection $statuses): Collection
     {
         $statusesIds = $statuses->pluck('id')->toArray();
 
-        return $this->model::with('social', 'social.media', 'social.user')->whereIn('status_id', $statusesIds)->get();
+        return $this->model::with('social', 'prizes', 'social.media', 'social.user')->whereIn('status_id', $statusesIds)->get();
     }
 }

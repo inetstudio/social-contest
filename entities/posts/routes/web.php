@@ -24,10 +24,7 @@ Route::group(
             'posts',
             'ResourceControllerContract',
             [
-                'except' => [
-                    'show',
-                ],
-             'as' => 'back.social-contest'
+                'as' => 'back.social-contest'
             ]
         );
     }

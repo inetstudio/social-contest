@@ -16,4 +16,8 @@
             @endif
         @endforeach
     </ul>
+
+    <button class="btn btn-default show-social_post" type="button" data-url="{{ route('back.social-contest.posts.show', [$item['id']]) }}">
+        <i class="fa fa-photo-video"></i>
+    </button>
 </div>

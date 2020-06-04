@@ -23,6 +23,7 @@ class ItemResource extends JsonResource implements ItemResourceContract
         return [
             'id' => $this['id'],
             'name' => $this['name'],
+            'extra' => $this->resource->toArray(),
         ];
     }
 }

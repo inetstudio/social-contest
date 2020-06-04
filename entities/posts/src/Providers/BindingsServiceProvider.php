@@ -15,6 +15,7 @@ class BindingsServiceProvider extends ServiceProvider implements DeferrableProvi
     */
     public array $bindings = [
         'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramPostsByTagCommandContract' => 'InetStudio\SocialContest\Posts\Console\Commands\SearchInstagramPostsByTagCommand',
+        'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramStoriesByTagCommandContract' => 'InetStudio\SocialContest\Posts\Console\Commands\SearchInstagramStoriesByTagCommand',
         'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchVkontaktePostsByTagCommandContract' => 'InetStudio\SocialContest\Posts\Console\Commands\SearchVkontaktePostsByTagCommand',
         'InetStudio\SocialContest\Posts\Contracts\Events\Back\ModerateItemEventContract' => 'InetStudio\SocialContest\Posts\Events\Back\ModerateItemEvent',
         'InetStudio\SocialContest\Posts\Contracts\Events\Back\ModifyItemEventContract' => 'InetStudio\SocialContest\Posts\Events\Back\ModifyItemEvent',

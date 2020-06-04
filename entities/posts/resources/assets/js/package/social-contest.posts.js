@@ -56,6 +56,28 @@ posts.init = function () {
             }
         });
 
+        $('.wrapper-content').on('click', '.show-social_post', function(event) {
+            window.Admin.vue.helpers.initComponent('social_contest_posts', 'SocialContestPostForm', {});
+
+            let url = $(this).attr('data-url');
+
+            window.waitForElement('#social_contest_post_form_modal', function() {
+                axios.get(url)
+                    .then(response => {
+                        window.Admin.vue.stores['social_contest_posts'].commit('setPost', response.data);
+
+                        $('#social_contest_post_form_modal').modal();
+                    })
+                    .catch(error => {
+                        swal.fire({
+                            title: 'Ошибка',
+                            text: 'При загрузке поста произошла ошибка',
+                            type: 'error',
+                        });
+                    });
+            });
+        });
+
         $('#add_socialPost_modal .add').on('click', function (event) {
             event.preventDefault();
 
@@ -135,7 +157,7 @@ posts.init = function () {
                 swal.fire({
                     title: 'Ошибка',
                     text: 'При модерации произошла ошибка',
-                    type: 'error',
+                    type: 'error'
                 });
             });
     }
@@ -154,7 +176,7 @@ posts.init = function () {
             result.items.forEach(function (item) {
                 let row = $('#post_row_'+item.id);
 
-                for (let column in item){
+                for (let column in item) {
                     if (item.hasOwnProperty(column)) {
                         row.find('.post-'+column).html(item[column]);
                     }
@@ -163,13 +185,13 @@ posts.init = function () {
 
             swal.fire({
                 title: 'Статус изменен',
-                type: 'success',
+                type: 'success'
             });
         } else {
             swal.fire({
                 title: 'Ошибка',
                 text: 'При модерации произошла ошибка',
-                type: 'error',
+                type: 'error'
             });
         }
     }

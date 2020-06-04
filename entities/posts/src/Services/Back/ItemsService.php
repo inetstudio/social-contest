@@ -2,8 +2,6 @@
 
 namespace InetStudio\SocialContest\Posts\Services\Back;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\SocialContest\Posts\Contracts\DTO\ItemDataContract;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
@@ -30,8 +28,11 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
             [
                 'id' => $data->id,
             ],
-            $data->except('id')->toArray()
+            $data->except('id', 'status', 'prizes')->toArray()
         );
+
+        app()->make('InetStudio\SocialContest\Prizes\Contracts\Services\Back\ItemsServiceContract')
+            ->attachToObject($data->prizes, $item);
 
         event(
             app()->make(
@@ -40,7 +41,7 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
             )
         );
 
-        return $item;
+        return $item->fresh();
     }
 
     /**

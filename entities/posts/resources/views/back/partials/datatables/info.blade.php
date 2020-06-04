@@ -11,6 +11,10 @@
         <button class="btn btn-white btn-xs post-block" title="Заблокировать" data-target="{{ route('back.social-contest.posts.moderate', [$item['id'], $blockStatus->alias]) }}"><i class="fa fa-minus-circle"></i></button>
     @endif
 </p>
-<p><strong>Пост:</strong> <a href="{{ $item['social']['url'] }}" target="_blank">Перейти</a></p>
+@if ($item['social']['url'])
+    <p><strong>Пост:</strong> <a href="{{ $item['social']['url'] }}" target="_blank">Перейти</a></p>
+@endif
 <p><strong>ID поста на сайте:</strong> <span id="uuid-{{ $item['id'] }}">{{ $item['uuid'] }}</span> <button class="btn btn-white btn-xs clipboard" data-clipboard-target="#uuid-{{ $item['id'] }}"><i class="fa fa-copy"></i></button></p>
-<p><strong>Содержимое:</strong><br/>{!! $item['social']['caption'] !!}</p>
+@if ($item['social']['caption'])
+    <p><strong>Содержимое:</strong><br/>{!! $item['social']['caption'] !!}</p>
+@endif

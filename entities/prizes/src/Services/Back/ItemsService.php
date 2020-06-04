@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace InetStudio\SocialContest\Prizes\Services\Back;
 
-use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use InetStudio\SocialContest\Prizes\DTO\ItemData;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\SocialContest\Prizes\Contracts\DTO\ItemDataContract;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
@@ -61,14 +62,14 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
     /**
      * Присваиваем призы объекту.
      *
-     * @param  array  $prizes
+     * @param  ItemData[]|null  $prizes
      * @param $item
      *
      * @throws BindingResolutionException
      */
-    public function attachToObject(array $prizes, $item): void
+    public function attachToObject($prizes, $item): void
     {
-        if (empty($prizes)) {
+        if ($prizes === null) {
             return;
         }
 
@@ -76,16 +77,8 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
 
         if (! empty($prizes)) {
             $prizes = collect($prizes)->mapWithKeys(function ($item) {
-                $key = $item['prize_id'];
-
                 return [
-                    $key => [
-                        'date_start' => Carbon::createFromFormat('d.m.Y', $item['date_start'])->setTime(0, 0, 0)->format('Y-m-d H:i:s'),
-                        'date_end' => ($item['date_end'] != $item['date_start'] && $item['date_end'] != null)
-                            ? Carbon::createFromFormat('d.m.Y', $item['date_end'])->setTime(0, 0, 0)->format('Y-m-d H:i:s')
-                            : null,
-                        'confirmed' => (int) ($item['confirmed'] ?? 0),
-                    ],
+                    $item->id => $item->pivot->except('created_at', 'updated_at')->toArray(),
                 ];
             })->toArray();
 

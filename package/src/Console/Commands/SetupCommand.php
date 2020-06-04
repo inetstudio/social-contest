@@ -4,9 +4,6 @@ namespace InetStudio\SocialContest\Console\Commands;
 
 use InetStudio\AdminPanel\Base\Console\Commands\BaseSetupCommand;
 
-/**
- * Class SetupCommand.
- */
 class SetupCommand extends BaseSetupCommand
 {
     /**
@@ -23,9 +20,6 @@ class SetupCommand extends BaseSetupCommand
      */
     protected $description = 'Setup social contest package';
 
-    /**
-     * Инициализация команд.
-     */
     protected function initCommands(): void
     {
         $this->calls = [

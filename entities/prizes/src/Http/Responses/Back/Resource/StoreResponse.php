@@ -37,7 +37,7 @@ class StoreResponse implements StoreResponseContract
      */
     public function toResponse($request)
     {
-        $data = ItemData::fromRequest($request);
+        $data = ItemData::prepareData($request->all());
 
         $item = $this->resourceService->save($data);
 

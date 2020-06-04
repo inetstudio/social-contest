@@ -39,6 +39,8 @@ class ShowResponse implements ShowResponseContract
 
         $item = $this->resourceService->getItemById($id);
 
-        return response()->json($item->toArray());
+        return response()->json($item);
+
+        //return response()->view('admin.module.social-contest.posts::back.modals.post-body', compact('item'));
     }
 }

@@ -1,17 +1,17 @@
 @if ($item->social->hasMedia('media'))
-    @if ($item->social->media_type == 'video')
+    @if (in_array($item->social->media_type, ['video', 'story_video']))
         <a data-fancybox data-width="640" data-height="360" href="{{ url($item->social->getFirstMediaUrl('media')) }}">
             <img class="card-img-top img-fluid" src="{{ url($item->social->getFirstMediaUrl('cover', 'cover_admin_'.$conversion)) }}" />
         </a>
     @endif
 
-    @if ($item->social->media_type == 'photo')
+    @if (in_array($item->social->media_type, ['photo', 'story_photo']))
         <a data-fancybox href="{{ url($item->social->getFirstMediaUrl('media')) }}">
             <img src="{{ url($item->social->getFirstMediaUrl('media', 'preview_admin_'.$conversion)) }}" class=" m-b-md img-fluid" alt="post_image">
         </a>
     @endif
 
-    @if ($item->social->media_type == 'carousel')
+    @if (in_array($item->social->media_type, ['carousel', 'story_carousel']))
         @php
             $media = $item->social->getMedia('media')
         @endphp
