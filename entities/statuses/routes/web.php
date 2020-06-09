@@ -9,10 +9,10 @@ Route::group(
         'prefix' => 'back/social-contest',
     ],
     function () {
-        Route::any('social-contest/statuses/data', 'DataControllerContract@getIndexData')
+        Route::any('statuses/data', 'DataControllerContract@getIndexData')
             ->name('back.social-contest.statuses.data.index');
 
-        Route::post('social-contest/statuses/suggestions', 'UtilityControllerContract@getSuggestions')
+        Route::post('statuses/suggestions', 'UtilityControllerContract@getSuggestions')
             ->name('back.social-contest.statuses.utility.suggestions');
 
         Route::resource(

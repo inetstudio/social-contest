@@ -43,6 +43,13 @@ class ServiceProvider extends BaseServiceProvider
      */
     protected function registerPublishes(): void
     {
+        $this->publishes(
+            [
+                __DIR__.'/../../config/social_contest_posts.php' => config_path('social_contest_posts.php'),
+            ],
+            'config'
+        );
+
         if (! $this->app->runningInConsole()) {
             return;
         }

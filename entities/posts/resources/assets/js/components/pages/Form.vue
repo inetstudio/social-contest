@@ -67,7 +67,6 @@
                                         <div class="ibox-content" style="display: none;">
                                             <div>
                                                 <social-contest-prizes-list
-                                                    v-bind:post-id-prop="_.get(post, 'model.id', '')"
                                                     v-bind:prizes-prop="_.get(post, 'model.prizes', [])"
                                                     v-on:update:prizes="updatePrizes($event)"
                                                 />

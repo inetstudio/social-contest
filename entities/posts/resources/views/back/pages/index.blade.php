@@ -19,7 +19,7 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#add_socialPost_modal">Добавить</button>
+                        {{-- <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#add_socialPost_modal">Добавить</button> --}}
                         <div class="ibox-tools">
                             <a href="{{ route('back.social-contest.posts.export') }}" class="btn btn-xs btn-primary">Экспорт</a>
                         </div>
@@ -37,8 +37,6 @@
             </div>
         </div>
     </div>
-
-    @include('admin.module.social-contest.posts::back.modals.add_post')
 @endsection
 
 @pushonce('scripts:datatables_social_contest_posts_index')

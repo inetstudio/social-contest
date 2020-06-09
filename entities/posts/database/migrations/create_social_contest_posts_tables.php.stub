@@ -3,14 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreateSocialContestPostsTables.
- */
 class CreateSocialContestPostsTables extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('social_contest_posts', function (Blueprint $table) {
@@ -35,9 +29,6 @@ class CreateSocialContestPostsTables extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
         Schema::dropIfExists('social_contest_posts_prizes');

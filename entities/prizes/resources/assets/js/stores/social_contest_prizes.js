@@ -15,14 +15,12 @@ window.Admin.vue.stores['social_contest_prizes'] = new Vuex.Store({
       state.prize.model = (prizeCopy.hasOwnProperty('model')) ? prizeCopy.model : prizeCopy;
       state.prize.hash = window.hash(state.prize.model);
     },
-    newPrize(state, postId) {
+    newPrize(state) {
       let prizeId = UUID.generate();
 
       let prize = {
         id: prizeId,
         pivot: {
-          post_id: postId,
-          prize_id: prizeId,
           confirmed: 0,
           date_start: null,
           date_end: null
@@ -46,5 +44,5 @@ window.Admin.vue.stores['social_contest_prizes'] = new Vuex.Store({
       };
       state.prizes = [];
     }
-  },
+  }
 });

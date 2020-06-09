@@ -3,67 +3,35 @@
 namespace InetStudio\SocialContest\Posts\Exports;
 
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Query\Builder;
-use Maatwebsite\Excel\Concerns\FromQuery;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use InetStudio\SocialContest\Posts\Contracts\Exports\ItemsExportContract;
 use InetStudio\SocialContest\Posts\Contracts\Services\Back\ItemsServiceContract;
 
-/**
- * Class ItemsExport.
- */
-class ItemsExport implements ItemsExportContract, FromQuery, WithMapping, WithHeadings, WithColumnFormatting
+class ItemsExport implements ItemsExportContract
 {
     use Exportable;
 
-    /**
-     * @var ItemsServiceContract
-     */
     protected ItemsServiceContract $itemsService;
 
-    /**
-     * @var array
-     */
     protected array $data = [];
 
-    /**
-     * Data property setter.
-     *
-     * @param  array  $data
-     */
-    public function setData(array $data): void
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * ItemsExport constructor.
-     *
-     * @param  ItemsServiceContract  $itemsService
-     */
     public function __construct(ItemsServiceContract $itemsService)
     {
         $this->itemsService = $itemsService;
     }
 
-    /**
-     * @return Builder
-     */
-    public function query()
+    public function setData(array $data): void
     {
-        return $this->itemsService->getModel()->with(['social', 'status']);
+        $this->data = $data;
     }
 
-    /**
-     * @param $item
-     *
-     * @return array
-     */
+    public function query()
+    {
+        return $this->itemsService->getModel()->query()->with(['social', 'status']);
+    }
+
     public function map($item): array
     {
         $fileUrl = ($item['social']->hasMedia('media')) ? url($item['social']->getFirstMediaUrl('media')) : '';
@@ -98,13 +66,10 @@ class ItemsExport implements ItemsExportContract, FromQuery, WithMapping, WithHe
             $item['social']['url'],
             $item['social']['caption'],
             Date::dateTimeToExcel($item['created_at']),
-            $fileUrl,
+            ($fileUrl) ? url($fileUrl) : '',
         ];
     }
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         return [
@@ -120,13 +85,10 @@ class ItemsExport implements ItemsExportContract, FromQuery, WithMapping, WithHe
             'Ссылка на пост',
             'Содержимое',
             'Дата регистрации в системе',
-            'Ссылка на фото',
+            'Ссылка на медиа',
         ];
     }
 
-    /**
-     * @return array
-     */
     public function columnFormats(): array
     {
         return [

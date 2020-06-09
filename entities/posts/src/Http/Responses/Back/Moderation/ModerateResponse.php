@@ -2,8 +2,7 @@
 
 namespace InetStudio\SocialContest\Posts\Http\Responses\Back\Moderation;
 
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use InetStudio\SocialContest\Posts\DTO\Back\Moderation\Moderate\ItemData;
 use InetStudio\SocialContest\Posts\Contracts\Services\Back\ModerateServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Http\Responses\Back\Moderation\ModerateResponseContract;
 
@@ -16,24 +15,13 @@ class ModerateResponse implements ModerateResponseContract
         $this->moderateService = $moderateService;
     }
 
-    /**
-     * Возвращаем ответ при модерации объекта.
-     *
-     * @param  Request  $request
-     *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|null
-     *
-     * @throws BindingResolutionException
-     */
     public function toResponse($request)
     {
-        $id = $request->route('id', 0);
-        $alias = $request->route('alias', '');
-        $data = $request->input('additional_info', []);
+        $data = ItemData::fromRequest($request);
 
-        $resource = $this->moderateService->moderate($id, $alias, $data);
+        $resource = collect([$this->moderateService->moderate($data)]);
 
-        return app()->make(
+        return resolve(
             'InetStudio\SocialContest\Posts\Contracts\Http\Resources\Back\Moderation\ItemsCollectionContract',
             compact('resource')
         );

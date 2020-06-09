@@ -86,7 +86,7 @@
                                                 ],
                                             ]) !!}
 
-                                            {!! Form::dropdown('color_class', (! $item['id']) ? 'default' : $item['color_class'], [
+                                            {!! Form::dropdown('color_class', $item['color_class'] ?? 'default', [
                                                 'label' => [
                                                     'title' => 'Цветовое обозначение',
                                                 ],

@@ -2,35 +2,22 @@
 
 namespace InetStudio\SocialContest\Posts\Http\Resources\Back\Resource\Index;
 
-use Throwable;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use InetStudio\SocialContest\Posts\Contracts\Http\Resources\Back\Resource\Index\ItemResourceContract;
 
-/**
- * Class ItemResource.
- */
 class ItemResource extends JsonResource implements ItemResourceContract
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  Request  $request
-     *
-     * @return array
-     *
-     * @throws Throwable
-     */
     public function toArray($request)
     {
         return [
             'DT_RowId' => 'post_row_'.$this['id'],
-            'search_data' => '',
+            'search_data' => $this['search_data'],
+            'uuid' => $this['uuid'],
             'id' => $this['id'],
             'status' => view(
                 'admin.module.social-contest.posts::back.partials.datatables.status',
                 [
-                    'item' => $this['status'],
+                    'item' => $this,
                 ]
             )->render(),
             'moderation' => view(
@@ -42,7 +29,7 @@ class ItemResource extends JsonResource implements ItemResourceContract
             'prizes' => view(
                 'admin.module.social-contest.posts::back.partials.datatables.prizes',
                 [
-                    'prizes' => $this['prizes'],
+                    'prizes' => $this,
                 ]
             )->render(),
             'media' => view(

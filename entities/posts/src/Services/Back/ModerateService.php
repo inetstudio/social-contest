@@ -2,80 +2,28 @@
 
 namespace InetStudio\SocialContest\Posts\Services\Back;
 
-use Illuminate\Support\Collection;
-use InetStudio\SocialContest\Posts\DTO\ItemData;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 use InetStudio\SocialContest\Posts\Contracts\Services\Back\ModerateServiceContract;
-use InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract as StatusesServiceContract;
+use InetStudio\SocialContest\Posts\Contracts\DTO\Back\Moderation\Moderate\ItemDataContract;
 
 class ModerateService extends ItemsService implements ModerateServiceContract
 {
-    protected StatusesServiceContract $statusesService;
-
-    public function __construct(StatusesServiceContract $statusesService, PostModelContract $model)
+    public function moderate(ItemDataContract $data): PostModelContract
     {
-        parent::__construct($model);
+        $item = $this->model::find($data->id);
 
-        $this->statusesService = $statusesService;
-    }
+        $item->status_id = $data->status_id;
+        $item->setJSONData('additional_info', 'statusReason', $data->additional_info['statusReason'] ?? '');
 
-    /**
-     * Модерация объекта.
-     *
-     * @param  int  $id
-     * @param  string  $alias
-     * @param  array  $additionalData
-     *
-     * @return Collection
-     */
-    public function moderate(int $id, string $alias, array $additionalData = []): Collection
-    {
-        $items = collect([]);
+        $item->save();
 
-        $item = $this->getItemById($id);
+        event(
+            resolve(
+                'InetStudio\SocialContest\Posts\Contracts\Events\Back\ModerateItemEventContract',
+                compact('item')
+            )
+        );
 
-        $status = $this->statusesService->getModel()->where('alias', '=', $alias)->first();
-        $massStatuses = $this->statusesService->getItemsByType('mass');
-
-        if (! $item->id || ! $status) {
-            return $items;
-        }
-
-        $items->push($item);
-
-        if ($massStatuses->contains($status)) {
-            $userSocialPosts = $item->social->user->posts;
-
-            $userPosts = $this->getModel()
-                ->whereIn('social_id', $userSocialPosts->pluck('id')->toArray())
-                ->where('social_type', get_class($userSocialPosts->first()))
-                ->get();
-
-            $userPosts->each(function ($userPost) use ($items) {
-                $items->push($userPost);
-            });
-        }
-
-        $items = $items->unique('uuid')
-            ->map(function ($item) use ($status, $additionalData) {
-                $data = ItemData::fromItem($item);
-                $data->status_id = $status['id'];
-                $data->additional_info = array_merge($item->additional_info, $additionalData);
-
-                $savedItem = $this->save($data)->fresh();
-
-                event(
-                    app()->make(
-                        'InetStudio\SocialContest\Posts\Contracts\Events\Back\ModerateItemEventContract',
-                        [
-                            'item' => $savedItem,
-                        ]
-                    )
-                );
-
-                return $savedItem;
-            });
-
-        return $items;
+        return $item;
     }
 }

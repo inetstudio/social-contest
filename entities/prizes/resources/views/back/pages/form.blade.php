@@ -1,10 +1,8 @@
-@php
-    /** @var InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract $item */
+@extends('admin::back.layouts.app')
 
+@php
     $title = ($item['id']) ? 'Редактирование приза' : 'Создание приза';
 @endphp
-
-@extends('admin::back.layouts.app')
 
 @section('title', $title)
 
@@ -25,13 +23,13 @@
 
         {!! Form::info() !!}
 
-        {!! Form::open(['url' => (! $item['id']) ? route('back.social-contest.prizes.store') : route('back.social-contest.prizes.update', [$item['id']]), 'id' => 'mainForm']) !!}
+        {!! Form::open(['url' => (! $item['id']) ? route('back.social-contest.prizes.store') : route('back.social-contest.prizes.update', [$item['id']]), 'id' => 'mainForm', 'class' => 'form-horizontal']) !!}
 
         @if ($item['id'])
             {{ method_field('PUT') }}
         @endif
 
-        {!! Form::hidden('id', $item['id'] ?? 0, ['id' => 'object-id']) !!}
+        {!! Form::hidden('id', (! $item['id']) ? '' : $item['id'], ['id' => 'object-id']) !!}
 
         {!! Form::hidden('type', get_class($item), ['id' => 'object-type']) !!}
 

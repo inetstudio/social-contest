@@ -18,50 +18,20 @@ use InetStudio\SocialContest\Posts\Contracts\Services\Back\ItemsServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramPostsByTagCommandContract;
 use InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract as StatusesServiceContract;
 
-/**
- * Class SearchInstagramPostsByTagCommand.
- */
 class SearchInstagramPostsByTagCommand extends Command implements SearchInstagramPostsByTagCommandContract
 {
-    /**
-     * Имя команды.
-     *
-     * @var string
-     */
     protected $signature = 'inetstudio:social-contest:posts:instagram';
 
-    /**
-     * Описание команды.
-     *
-     * @var string
-     */
     protected $description = 'Search instagram posts by tag';
 
-    /**
-     * @var PostsServiceContract
-     */
     protected PostsServiceContract $instagramPosts;
 
-    /**
-     * @var UsersServiceContract
-     */
     protected UsersServiceContract $instagramUsers;
 
-    /**
-     * @var ItemsServiceContract
-     */
     protected ItemsServiceContract $itemsService;
 
     protected StatusesServiceContract $statusesService;
 
-    /**
-     * SearchInstagramPostsByTagCommand constructor.
-     *
-     * @param  PostsServiceContract  $instagramPosts
-     * @param  UsersServiceContract  $instagramUsers
-     * @param  ItemsServiceContract  $itemsService
-     * @param  StatusesServiceContract $statusesService
-     */
     public function __construct(
         PostsServiceContract $instagramPosts,
         UsersServiceContract $instagramUsers,
@@ -76,9 +46,6 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
         $this->statusesService = $statusesService;
     }
 
-    /**
-     * Запуск команды.
-     */
     public function handle(): void
     {
         $blockedUsersPKs = $this->getBlockedUsers();
@@ -131,11 +98,6 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
         }
     }
 
-    /**
-     * Возвращаем типы медиа-контента.
-     *
-     * @return array
-     */
     protected function getMediaTypes(): array
     {
         $configTypes = config('social_contest.types');
@@ -158,11 +120,6 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
         return $mediaTypes;
     }
 
-    /**
-     * Возвращаем PK заблокированных пользователей.
-     *
-     * @return array
-     */
     protected function getBlockedUsers(): array
     {
         $blockStatuses = $this->statusesService->getModel()->where('alias', '=', 'blocked')->get();

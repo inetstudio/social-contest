@@ -5,14 +5,8 @@ namespace InetStudio\SocialContest\Statuses\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-/**
- * Class ServiceProvider.
- */
 class ServiceProvider extends BaseServiceProvider
 {
-    /**
-     * Загрузка сервиса.
-     */
     public function boot(): void
     {
         $this->registerConsoleCommands();
@@ -21,9 +15,6 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerViews();
     }
 
-    /**
-     * Регистрация команд.
-     */
     protected function registerConsoleCommands(): void
     {
         if (! $this->app->runningInConsole()) {
@@ -38,9 +29,6 @@ class ServiceProvider extends BaseServiceProvider
         );
     }
 
-    /**
-     * Регистрация ресурсов.
-     */
     protected function registerPublishes(): void
     {
         if (! $this->app->runningInConsole()) {
@@ -62,17 +50,11 @@ class ServiceProvider extends BaseServiceProvider
         );
     }
 
-    /**
-     * Регистрация путей.
-     */
     protected function registerRoutes(): void
     {
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
     }
 
-    /**
-     * Регистрация представлений.
-     */
     protected function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'admin.module.social-contest.statuses');

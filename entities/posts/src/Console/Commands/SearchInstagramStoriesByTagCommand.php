@@ -17,50 +17,20 @@ use InetStudio\SocialContest\Posts\Contracts\Services\Back\ItemsServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramPostsByTagCommandContract;
 use InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract as StatusesServiceContract;
 
-/**
- * Class SearchInstagramStoriesByTagCommand.
- */
 class SearchInstagramStoriesByTagCommand extends Command implements SearchInstagramPostsByTagCommandContract
 {
-    /**
-     * Имя команды.
-     *
-     * @var string
-     */
     protected $signature = 'inetstudio:social-contest:stories:instagram';
 
-    /**
-     * Описание команды.
-     *
-     * @var string
-     */
     protected $description = 'Search instagram stories by tag';
 
-    /**
-     * @var StoriesServiceContract
-     */
     protected StoriesServiceContract $instagramStories;
 
-    /**
-     * @var UsersServiceContract
-     */
     protected UsersServiceContract $instagramUsers;
 
-    /**
-     * @var ItemsServiceContract
-     */
     protected ItemsServiceContract $itemsService;
 
     protected StatusesServiceContract $statusesService;
 
-    /**
-     * SearchInstagramPostsByTagCommand constructor.
-     *
-     * @param  StoriesServiceContract  $instagramStories
-     * @param  UsersServiceContract  $instagramUsers
-     * @param  ItemsServiceContract  $itemsService
-     * @param  StatusesServiceContract $statusesService
-     */
     public function __construct(
         StoriesServiceContract $instagramStories,
         UsersServiceContract $instagramUsers,
@@ -75,9 +45,6 @@ class SearchInstagramStoriesByTagCommand extends Command implements SearchInstag
         $this->statusesService = $statusesService;
     }
 
-    /**
-     * Запуск команды.
-     */
     public function handle(): void
     {
         $blockedUsersPKs = $this->getBlockedUsers();
@@ -127,11 +94,6 @@ class SearchInstagramStoriesByTagCommand extends Command implements SearchInstag
         }
     }
 
-    /**
-     * Возвращаем PK заблокированных пользователей.
-     *
-     * @return array
-     */
     protected function getBlockedUsers(): array
     {
         $blockStatuses = $this->statusesService->getModel()->where('alias', '=', 'blocked')->get();

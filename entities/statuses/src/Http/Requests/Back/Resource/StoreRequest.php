@@ -3,29 +3,15 @@
 namespace InetStudio\SocialContest\Statuses\Http\Requests\Back\Resource;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\SocialContest\Statuses\Contracts\Http\Requests\Back\Resource\StoreRequestContract;
 
-/**
- * Class StoreRequest.
- */
 class StoreRequest extends FormRequest implements StoreRequestContract
 {
-    /**
-     * Определить, авторизован ли пользователь для этого запроса.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Сообщения об ошибках.
-     *
-     * @return array
-     */
     public function messages(): array
     {
         return [
@@ -37,11 +23,6 @@ class StoreRequest extends FormRequest implements StoreRequestContract
         ];
     }
 
-    /**
-     * Правила проверки запроса.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [

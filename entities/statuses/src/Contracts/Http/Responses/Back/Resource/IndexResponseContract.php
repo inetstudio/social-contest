@@ -4,9 +4,6 @@ namespace InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Resour
 
 use Illuminate\Contracts\Support\Responsable;
 
-/**
- * Interface IndexResponseContract.
- */
 interface IndexResponseContract extends Responsable
 {
 }

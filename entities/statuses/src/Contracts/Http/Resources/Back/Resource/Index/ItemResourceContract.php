@@ -7,9 +7,6 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Contracts\Routing\UrlRoutable;
 use JsonSerializable;
 
-/**
- * Interface ItemResourceContract.
- */
 interface ItemResourceContract extends ArrayAccess, JsonSerializable, Responsable, UrlRoutable
 {
 }

@@ -4,42 +4,25 @@ declare(strict_types=1);
 
 namespace InetStudio\SocialContest\Prizes\Services\Back\DataTables;
 
-use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use InetStudio\SocialContest\Prizes\Contracts\Models\PrizeModelContract;
+use InetStudio\SocialContest\Prizes\Contracts\Services\ItemsServiceContract;
 use InetStudio\SocialContest\Prizes\Contracts\Services\Back\DataTables\IndexServiceContract;
 use InetStudio\SocialContest\Prizes\Contracts\Http\Resources\Back\Resource\Index\ItemResourceContract;
 
-/**
- * Class IndexService.
- */
 class IndexService extends DataTable implements IndexServiceContract
 {
-    /**
-     * @var PrizeModelContract
-     */
-    protected PrizeModelContract $model;
+    protected ItemsServiceContract $itemsService;
 
-    /**
-     * @var ItemResourceContract
-     */
     protected $resource;
 
-    /**
-     * IndexService constructor.
-     *
-     * @param  PrizeModelContract  $model
-     *
-     * @throws BindingResolutionException
-     */
-    public function __construct(PrizeModelContract $model)
+    public function __construct(ItemsServiceContract $itemsService)
     {
-        $this->model = $model;
-        $this->resource = app()->make(
+        $this->itemsService = $itemsService;
+
+        $this->resource = resolve(
             ItemResourceContract::class,
             [
                 'resource' => null,
@@ -47,13 +30,6 @@ class IndexService extends DataTable implements IndexServiceContract
         );
     }
 
-    /**
-     * Запрос на получение данных таблицы.
-     *
-     * @return JsonResponse
-     *
-     * @throws Exception
-     */
     public function ajax(): JsonResponse
     {
         return DataTables::of($this->query())
@@ -64,21 +40,11 @@ class IndexService extends DataTable implements IndexServiceContract
             ->make();
     }
 
-    /**
-     * Get the query object to be processed by dataTables.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Support\Collection
-     */
     public function query()
     {
-        return $this->model->query();
+        return $this->itemsService->getModel()->query();
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return Builder
-     */
     public function html(): Builder
     {
         /** @var Builder $table */
@@ -90,11 +56,6 @@ class IndexService extends DataTable implements IndexServiceContract
             ->parameters($this->getParameters());
     }
 
-    /**
-     * Получаем колонки.
-     *
-     * @return array
-     */
     protected function getColumns(): array
     {
         return [
@@ -112,11 +73,6 @@ class IndexService extends DataTable implements IndexServiceContract
         ];
     }
 
-    /**
-     * Свойства ajax datatables.
-     *
-     * @return array
-     */
     protected function getAjaxOptions(): array
     {
         return [
@@ -125,11 +81,6 @@ class IndexService extends DataTable implements IndexServiceContract
         ];
     }
 
-    /**
-     * Свойства datatables.
-     *
-     * @return array
-     */
     protected function getParameters(): array
     {
         $translation = trans('admin::datatables');

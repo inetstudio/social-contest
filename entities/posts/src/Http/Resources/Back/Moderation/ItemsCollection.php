@@ -2,28 +2,14 @@
 
 namespace InetStudio\SocialContest\Posts\Http\Resources\Back\Moderation;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\SocialContest\Statuses\Contracts\Http\Resources\Back\Utility\Suggestions\ItemsCollectionContract;
 
-/**
- * Class ItemsCollection.
- */
 class ItemsCollection extends ResourceCollection implements ItemsCollectionContract
 {
-    /**
-     * ItemsCollection constructor.
-     *
-     * ItemsCollection constructor.
-     *
-     * @param $resource
-     *
-     * @throws BindingResolutionException
-     */
     public function __construct($resource)
     {
-        $itemResource = app()->make(
+        $itemResource = resolve(
             'InetStudio\SocialContest\Posts\Contracts\Http\Resources\Back\Moderation\ItemResourceContract',
             [
                 'resource' => null,
@@ -35,13 +21,6 @@ class ItemsCollection extends ResourceCollection implements ItemsCollectionContr
         parent::__construct($resource);
     }
 
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  Request  $request
-     *
-     * @return array
-     */
     public function toArray($request)
     {
         return [

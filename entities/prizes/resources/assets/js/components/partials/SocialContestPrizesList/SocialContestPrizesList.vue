@@ -3,10 +3,10 @@
         <a href="#" class="btn btn-xs btn-primary btn-xs" v-on:click.prevent="add">Добавить</a>
         <ul class="prizes-list m-t small-list">
             <social-contest-prizes-list-item
-                v-for="prize in prizes"
-                :key="prize.model.id"
-                v-bind:prize="prize"
-                v-on:remove="remove"
+                    v-for="prize in prizes"
+                    :key="prize.model.id"
+                    v-bind:prize="prize"
+                    v-on:remove="remove"
             />
         </ul>
     </div>
@@ -16,10 +16,6 @@
   export default {
     name: 'SocialContestPrizesList',
     props: {
-      postIdProp: {
-        type: [Number, String],
-        required: true
-      },
       prizesProp: {
         type: Array,
         default: function() {
@@ -52,9 +48,9 @@
 
           component.prizes = _.map(JSON.parse(JSON.stringify(newValues)), function (prize) {
             if (prize.hasOwnProperty('model')) {
-                prize.hash = window.hash(prize.model);
+              prize.hash = window.hash(prize.model);
 
-                return prize;
+              return prize;
             }
 
             return {
@@ -69,12 +65,10 @@
     },
     methods: {
       add() {
-        let component = this;
-
         window.Admin.vue.helpers.initComponent('social_contest_prizes', 'SocialContestPrizesListItemForm', {});
 
         window.Admin.vue.stores['social_contest_prizes'].commit('setMode', 'add_list_item');
-        window.Admin.vue.stores['social_contest_prizes'].commit('newPrize', component.postIdProp);
+        window.Admin.vue.stores['social_contest_prizes'].commit('newPrize');
 
         window.waitForElement('#social_contest_prizes_list_item_form_modal', function () {
           $('#social_contest_prizes_list_item_form_modal').modal();

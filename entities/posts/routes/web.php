@@ -12,10 +12,10 @@ Route::group(
         Route::any('posts/data', 'DataControllerContract@getIndexData')
             ->name('back.social-contest.posts.data.index');
 
-        Route::post('posts/moderate/{id}/{alias}', 'ModerateControllerContract@moderate')
+        Route::post('posts/moderate', 'ModerateControllerContract@moderate')
             ->name('back.social-contest.posts.moderate');
 
-        Route::post('posts/add', 'PostsControllerContract@addPost')->name('back.social-contest.posts.add');
+        //Route::post('posts/add', 'PostsControllerContract@addPost')->name('back.social-contest.posts.add');
 
         Route::get('posts/export', 'ExportControllerContract@exportItems')
             ->name('back.social-contest.posts.export');
@@ -24,6 +24,10 @@ Route::group(
             'posts',
             'ResourceControllerContract',
             [
+                'except' => [
+                    'create',
+                    'edit',
+                ],
                 'as' => 'back.social-contest'
             ]
         );

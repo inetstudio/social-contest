@@ -4,26 +4,13 @@ namespace InetStudio\SocialContest\Statuses\Http\Controllers\Back;
 
 use InetStudio\AdminPanel\Base\Http\Controllers\Controller;
 use InetStudio\SocialContest\Statuses\Contracts\Http\Controllers\Back\UtilityControllerContract;
-use InetStudio\SocialContest\Statuses\Contracts\Http\Requests\Back\Utility\SuggestionsRequestContract;
-use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Utility\SuggestionsResponseContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Requests\Back\Utility\GetSuggestionsRequestContract;
+use InetStudio\SocialContest\Statuses\Contracts\Http\Responses\Back\Utility\GetSuggestionsResponseContract;
 
-/**
- * Class UtilityController.
- */
 class UtilityController extends Controller implements UtilityControllerContract
 {
-    /**
-     * Возвращаем объекты для поля.
-     *
-     * @param  SuggestionsRequestContract  $request
-     * @param  SuggestionsResponseContract  $response
-     *
-     * @return SuggestionsResponseContract
-     */
-    public function getSuggestions(
-        SuggestionsRequestContract $request,
-        SuggestionsResponseContract $response
-    ): SuggestionsResponseContract {
+    public function getSuggestions(GetSuggestionsRequestContract $request, GetSuggestionsResponseContract $response): GetSuggestionsResponseContract
+    {
         return $response;
     }
 }

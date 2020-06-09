@@ -26,6 +26,15 @@ class StatusesSeedCommand extends Command
             ],
         ],
         [
+            'name' => 'Предварительно одобрено',
+            'alias' => 'preliminarily_approved',
+            'description' => 'Предварительно одобренные посты',
+            'color_class' => 'default',
+            'types' => [
+                'social_contest_status_draw' => 'Участвует в розыгрыше призов',
+            ],
+        ],
+        [
             'name' => 'Одобрено',
             'alias' => 'approved',
             'description' => 'Одобренные посты',

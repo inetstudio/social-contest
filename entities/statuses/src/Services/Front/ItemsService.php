@@ -7,9 +7,6 @@ namespace InetStudio\SocialContest\Statuses\Services\Front;
 use InetStudio\SocialContest\Statuses\Services\ItemsService as BaseItemsService;
 use InetStudio\SocialContest\Statuses\Contracts\Services\Front\ItemsServiceContract;
 
-/**
- * Class ItemsService.
- */
 class ItemsService extends BaseItemsService implements ItemsServiceContract
 {
 }

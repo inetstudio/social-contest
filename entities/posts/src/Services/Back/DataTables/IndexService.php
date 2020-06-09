@@ -4,56 +4,30 @@ declare(strict_types=1);
 
 namespace InetStudio\SocialContest\Posts\Services\Back\DataTables;
 
-use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 use InetStudio\SocialContest\Posts\Contracts\Services\Back\DataTables\IndexServiceContract;
-use InetStudio\SocialContest\Posts\Contracts\Http\Resources\Back\Resource\Index\ItemResourceContract;
 
-/**
- * Class IndexService.
- */
 class IndexService extends DataTable implements IndexServiceContract
 {
-    /**
-     * @var PostModelContract
-     */
     protected PostModelContract $model;
 
-    /**
-     * @var ItemResourceContract
-     */
     protected $resource;
 
-    /**
-     * IndexService constructor.
-     *
-     * @param  PostModelContract  $model
-     *
-     * @throws BindingResolutionException
-     */
     public function __construct(PostModelContract $model)
     {
         $this->model = $model;
-        $this->resource = app()->make(
-            ItemResourceContract::class,
+        $this->resource = resolve(
+            'InetStudio\SocialContest\Posts\Contracts\Http\Resources\Back\Resource\Index\ItemResourceContract',
             [
                 'resource' => null,
             ]
         );
     }
 
-    /**
-     * Запрос на получение данных таблицы.
-     *
-     * @return JsonResponse
-     *
-     * @throws Exception
-     */
     public function ajax(): JsonResponse
     {
         return DataTables::of($this->query())
@@ -64,25 +38,15 @@ class IndexService extends DataTable implements IndexServiceContract
             ->make();
     }
 
-    /**
-     * Get the query object to be processed by dataTables.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Support\Collection
-     */
     public function query()
     {
-        return $this->model::query()->with(['social', 'status']);
+        return $this->model::query()->with(['prizes', 'social', 'status']);
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return Builder
-     */
     public function html(): Builder
     {
         /** @var Builder $table */
-        $table = app('datatables.html');
+        $table = resolve('datatables.html');
 
         return $table
             ->columns($this->getColumns())
@@ -90,15 +54,11 @@ class IndexService extends DataTable implements IndexServiceContract
             ->parameters($this->getParameters());
     }
 
-    /**
-     * Получаем колонки.
-     *
-     * @return array
-     */
     protected function getColumns(): array
     {
         return [
             ['data' => 'search_data', 'name' => 'search_data', 'title' => 'Search', 'orderable' => false, 'visible' => false, 'className' => 'post-search_data'],
+            ['data' => 'uuid', 'name' => 'uuid', 'title' => 'uuid', 'visible' => false, 'className' => 'post-uuid'],
             ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'className' => 'post-id'],
             ['data' => 'status', 'name' => 'status.name', 'title' => 'Статус', 'orderable' => false, 'className' => 'post-status'],
             ['data' => 'moderation', 'name' => 'moderation', 'title' => 'Модерация', 'orderable' => false, 'searchable' => false, 'className' => 'post-moderation'],
@@ -111,11 +71,6 @@ class IndexService extends DataTable implements IndexServiceContract
         ];
     }
 
-    /**
-     * Свойства ajax datatables.
-     *
-     * @return array
-     */
     protected function getAjaxOptions(): array
     {
         return [
@@ -124,17 +79,12 @@ class IndexService extends DataTable implements IndexServiceContract
         ];
     }
 
-    /**
-     * Свойства datatables.
-     *
-     * @return array
-     */
     protected function getParameters(): array
     {
         $translation = trans('admin::datatables');
 
         return [
-            'order' => [7, 'desc'],
+            'order' => [8, 'desc'],
             'paging' => true,
             'pagingType' => 'full_numbers',
             'searching' => true,

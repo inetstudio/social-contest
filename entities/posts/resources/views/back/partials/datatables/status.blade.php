@@ -1,3 +1,3 @@
-@if ($item)
-    <span class="label label-{{ $item['color_class'] }}">{{ $item['name'] }}</span>
+@if ($item['status'])
+    <span class="label label-{{ $item['status']['color_class'] }}">{{ $item['status']['name'] }}</span>
 @endif

@@ -1,10 +1,8 @@
-@php
-    /** @var Yajra\DataTables\Html\Builder $table */
+@extends('admin::back.layouts.app')
 
+@php
     $title = 'Призы';
 @endphp
-
-@extends('admin::back.layouts.app')
 
 @section('title', $title)
 

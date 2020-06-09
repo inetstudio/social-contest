@@ -2,24 +2,10 @@
 
 namespace InetStudio\SocialContest\Prizes\Contracts\Http\Controllers\Back;
 
-use InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Utility\SuggestionsRequestContract;
-use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Utility\SuggestionsResponseContract;
+use InetStudio\SocialContest\Prizes\Contracts\Http\Requests\Back\Utility\GetSuggestionsRequestContract;
+use InetStudio\SocialContest\Prizes\Contracts\Http\Responses\Back\Utility\GetSuggestionsResponseContract;
 
-/**
- * Interface UtilityControllerContract.
- */
 interface UtilityControllerContract
 {
-    /**
-     * Возвращаем объекты для поля.
-     *
-     * @param  SuggestionsRequestContract  $request
-     * @param  SuggestionsResponseContract  $response
-     *
-     * @return SuggestionsResponseContract
-     */
-    public function getSuggestions(
-        SuggestionsRequestContract $request,
-        SuggestionsResponseContract $response
-    ): SuggestionsResponseContract;
+    public function getSuggestions(GetSuggestionsRequestContract $request, GetSuggestionsResponseContract $response): GetSuggestionsResponseContract;
 }
