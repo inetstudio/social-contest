@@ -5,15 +5,13 @@ namespace InetStudio\SocialContest\Posts\Console\Commands;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-use InetStudio\SocialContest\Posts\DTO\ItemData;
 use InetStudio\Instagram\Stories\Pipelines\Filters\ByPK;
-use InetStudio\Instagram\Stories\Pipelines\Filters\ByTags;
 use InetStudio\Instagram\Stories\Pipelines\Filters\ByUserPK;
-use InetStudio\Instagram\Stories\Pipelines\Filters\ByCreatedGt;
-use InetStudio\Instagram\Stories\Pipelines\Filters\ByCreatedLt;
+use InetStudio\SocialContest\Posts\DTO\Back\Resource\Store\ItemData;
 use InetStudio\Instagram\Users\Contracts\Services\Back\UsersServiceContract;
 use InetStudio\Instagram\Stories\Contracts\Services\Back\StoriesServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Services\Back\ItemsServiceContract;
+use InetStudio\SocialContest\Posts\Contracts\Services\Back\ResourceServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramPostsByTagCommandContract;
 use InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract as StatusesServiceContract;
 
@@ -29,12 +27,15 @@ class SearchInstagramStoriesByTagCommand extends Command implements SearchInstag
 
     protected ItemsServiceContract $itemsService;
 
+    protected ResourceServiceContract $resourceService;
+
     protected StatusesServiceContract $statusesService;
 
     public function __construct(
         StoriesServiceContract $instagramStories,
         UsersServiceContract $instagramUsers,
         ItemsServiceContract $itemsService,
+        ResourceServiceContract $resourceService,
         StatusesServiceContract $statusesService
     ) {
         parent::__construct();
@@ -42,6 +43,7 @@ class SearchInstagramStoriesByTagCommand extends Command implements SearchInstag
         $this->instagramStories = $instagramStories;
         $this->instagramUsers = $instagramUsers;
         $this->itemsService = $itemsService;
+        $this->resourceService = $resourceService;
         $this->statusesService = $statusesService;
     }
 
@@ -49,8 +51,6 @@ class SearchInstagramStoriesByTagCommand extends Command implements SearchInstag
     {
         $blockedUsersPKs = $this->getBlockedUsers();
         $existPKs = $this->instagramStories->repository->getAllItems()->pluck('pk')->toArray();
-        $startTime = null;//config('social_contest.start');
-        $endTime = null;//config('social_contest.end');
         $tags = config('social_contest.tags');
 
         foreach ($tags as $tagArr) {
@@ -59,9 +59,6 @@ class SearchInstagramStoriesByTagCommand extends Command implements SearchInstag
                 [
                     'usersPKs' => new ByUserPK($blockedUsersPKs),
                     'PKs' => new ByPK($existPKs),
-                    //'startTime' => new ByCreatedGt(($startTime) ? strtotime($startTime) : null),
-                    //'endTime' => new ByCreatedLt(($endTime) ? strtotime($endTime) : null),
-                    'tags' => new ByTags($tagArr),
                 ]
             );
 
@@ -89,7 +86,7 @@ class SearchInstagramStoriesByTagCommand extends Command implements SearchInstag
                     ]
                 );
 
-                $this->itemsService->save($data);
+                $this->resourceService->store($data);
             }
         }
     }

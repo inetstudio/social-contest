@@ -5,67 +5,41 @@ namespace InetStudio\SocialContest\Posts\Console\Commands;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-use InetStudio\SocialContest\Posts\DTO\ItemData;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByTags;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByPostId;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByUserId;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByCreatedGt;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByCreatedLt;
 use InetStudio\Vkontakte\Posts\Pipelines\Filters\ByMediaType;
+use InetStudio\SocialContest\Posts\DTO\Back\Resource\Store\ItemData;
 use InetStudio\Vkontakte\Posts\Contracts\Services\Back\PostsServiceContract;
 use InetStudio\Vkontakte\Users\Contracts\Services\Back\UsersServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Services\Back\ItemsServiceContract;
+use InetStudio\SocialContest\Posts\Contracts\Services\Back\ResourceServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchVkontaktePostsByTagCommandContract;
 use InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract as StatusesServiceContract;
 
-/**
- * Class SearchVkontaktePostsByTagCommand.
- */
 class SearchVkontaktePostsByTagCommand extends Command implements SearchVkontaktePostsByTagCommandContract
 {
-    /**
-     * Имя команды.
-     *
-     * @var string
-     */
     protected $signature = 'inetstudio:social-contest:posts:vkontakte';
 
-    /**
-     * Описание команды.
-     *
-     * @var string
-     */
     protected $description = 'Search vkontakte posts by tag';
 
-    /**
-     * @var PostsServiceContract
-     */
     protected PostsServiceContract $vkontaktePosts;
 
-    /**
-     * @var UsersServiceContract
-     */
     protected UsersServiceContract $vkontakteUsers;
 
-    /**
-     * @var ItemsServiceContract
-     */
     protected ItemsServiceContract $itemsService;
+
+    protected ResourceServiceContract $resourceService;
 
     protected StatusesServiceContract $statusesService;
 
-    /**
-     * SearchInstagramPostsByTagCommand constructor.
-     *
-     * @param  PostsServiceContract  $vkontaktePosts
-     * @param  UsersServiceContract  $vkontakteUsers
-     * @param  ItemsServiceContract  $itemsService
-     * @param  StatusesServiceContract $statusesService
-     */
     public function __construct(
         PostsServiceContract $vkontaktePosts,
         UsersServiceContract $vkontakteUsers,
         ItemsServiceContract $itemsService,
+        ResourceServiceContract $resourceService,
         StatusesServiceContract $statusesService
     ) {
         parent::__construct();
@@ -73,12 +47,10 @@ class SearchVkontaktePostsByTagCommand extends Command implements SearchVkontakt
         $this->vkontaktePosts = $vkontaktePosts;
         $this->vkontakteUsers = $vkontakteUsers;
         $this->itemsService = $itemsService;
+        $this->resourceService = $resourceService;
         $this->statusesService = $statusesService;
     }
 
-    /**
-     * Запуск команды.
-     */
     public function handle(): void
     {
         $blockedUsersIDs = $this->getBlockedUsers();
@@ -128,16 +100,11 @@ class SearchVkontaktePostsByTagCommand extends Command implements SearchVkontakt
                     ]
                 );
 
-                $this->itemsService->save($data);
+                $this->resourceService->store($data);
             }
         }
     }
 
-    /**
-     * Возвращаем типы медиа-контента.
-     *
-     * @return array
-     */
     protected function getMediaTypes(): array
     {
         $configTypes = config('social_contest.types');
@@ -157,11 +124,6 @@ class SearchVkontaktePostsByTagCommand extends Command implements SearchVkontakt
         return $mediaTypes;
     }
 
-    /**
-     * Возвращаем Id заблокированных пользователей.
-     *
-     * @return array
-     */
     protected function getBlockedUsers(): array
     {
         $blockStatuses = $this->statusesService->getModel()->where('alias', '=', 'blocked')->get();

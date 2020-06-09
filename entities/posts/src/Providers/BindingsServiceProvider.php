@@ -13,6 +13,7 @@ class BindingsServiceProvider extends ServiceProvider implements DeferrableProvi
         'InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchVkontaktePostsByTagCommandContract' => 'InetStudio\SocialContest\Posts\Console\Commands\SearchVkontaktePostsByTagCommand',
 
         'InetStudio\SocialContest\Posts\Contracts\DTO\Back\Moderation\Moderate\ItemDataContract' => 'InetStudio\SocialContest\Posts\DTO\Back\Moderation\Moderate\ItemData',
+        'InetStudio\SocialContest\Posts\Contracts\DTO\Back\Resource\Store\ItemDataContract' => 'InetStudio\SocialContest\Posts\DTO\Back\Resource\Store\ItemData',
         'InetStudio\SocialContest\Posts\Contracts\DTO\Back\Resource\Update\ItemDataContract' => 'InetStudio\SocialContest\Posts\DTO\Back\Resource\Update\ItemData',
 
         'InetStudio\SocialContest\Posts\Contracts\Events\Back\ModerateItemEventContract' => 'InetStudio\SocialContest\Posts\Events\Back\ModerateItemEvent',

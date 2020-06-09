@@ -5,16 +5,17 @@ namespace InetStudio\SocialContest\Posts\Console\Commands;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-use InetStudio\SocialContest\Posts\DTO\ItemData;
 use InetStudio\Instagram\Posts\Pipelines\Filters\ByPK;
 use InetStudio\Instagram\Posts\Pipelines\Filters\ByTags;
 use InetStudio\Instagram\Posts\Pipelines\Filters\ByUserPK;
 use InetStudio\Instagram\Posts\Pipelines\Filters\ByCreatedGt;
 use InetStudio\Instagram\Posts\Pipelines\Filters\ByCreatedLt;
 use InetStudio\Instagram\Posts\Pipelines\Filters\ByMediaType;
+use InetStudio\SocialContest\Posts\DTO\Back\Resource\Store\ItemData;
 use InetStudio\Instagram\Posts\Contracts\Services\Back\PostsServiceContract;
 use InetStudio\Instagram\Users\Contracts\Services\Back\UsersServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Services\Back\ItemsServiceContract;
+use InetStudio\SocialContest\Posts\Contracts\Services\Back\ResourceServiceContract;
 use InetStudio\SocialContest\Posts\Contracts\Console\Commands\SearchInstagramPostsByTagCommandContract;
 use InetStudio\SocialContest\Statuses\Contracts\Services\Back\ItemsServiceContract as StatusesServiceContract;
 
@@ -30,12 +31,15 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
 
     protected ItemsServiceContract $itemsService;
 
+    protected ResourceServiceContract $resourceService;
+
     protected StatusesServiceContract $statusesService;
 
     public function __construct(
         PostsServiceContract $instagramPosts,
         UsersServiceContract $instagramUsers,
         ItemsServiceContract $itemsService,
+        ResourceServiceContract $resourceService,
         StatusesServiceContract $statusesService
     ) {
         parent::__construct();
@@ -43,6 +47,7 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
         $this->instagramPosts = $instagramPosts;
         $this->instagramUsers = $instagramUsers;
         $this->itemsService = $itemsService;
+        $this->resourceService = $resourceService;
         $this->statusesService = $statusesService;
     }
 
@@ -93,7 +98,7 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
                     ]
                 );
 
-                $this->itemsService->save($data);
+                $this->resourceService->store($data);
             }
         }
     }
