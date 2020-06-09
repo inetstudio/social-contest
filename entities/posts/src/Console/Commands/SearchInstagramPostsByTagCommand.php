@@ -75,7 +75,7 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
 
             foreach ($socialPosts as $socialPost) {
                 $this->instagramUsers->save($socialPost->getUser());
-                $savedSocialPost = $this->instagramPosts->save($socialPost);
+                $savedSocialPost = $this->instagramPosts->save($socialPost, $mediaTypes);
 
                 $searchData = $savedSocialPost->additional_info;
                 Arr::forget(
@@ -111,13 +111,13 @@ class SearchInstagramPostsByTagCommand extends Command implements SearchInstagra
         foreach ($configTypes ?? [] as $configType) {
             switch ($configType) {
                 case 'all':
-                    $mediaTypes = [1, 2, 8];
+                    $mediaTypes = [1, 2];
                     break;
                 case 'photo':
-                    $mediaTypes = [1, 8];
+                    $mediaTypes = [1];
                     break;
                 case 'video':
-                    $mediaTypes = [2, 8];
+                    $mediaTypes = [2];
                     break;
             }
         }

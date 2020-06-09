@@ -23,7 +23,7 @@
             @else
                 @php
                     $coverId = $mediaItem->getCustomProperty('cover');
-                    $cover = \Spatie\MediaLibrary\Models\Media::find($coverId)->first();
+                    $cover = \Spatie\MediaLibrary\MediaCollections\Models\Media::find($coverId)->first();
                 @endphp
                 <a data-fancybox="carousel-{{ $item['id'] }}" data-width="640" data-height="360" href="{{ url($mediaItem->getUrl()) }}">
                     <img class="card-img-top img-fluid" src="{{ url($cover->getUrl('cover_admin_'.$conversion)) }}" />
