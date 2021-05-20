@@ -29,7 +29,7 @@ class ItemResource extends JsonResource implements ItemResourceContract
             'prizes' => view(
                 'admin.module.social-contest.posts::back.partials.datatables.prizes',
                 [
-                    'prizes' => $this,
+                    'item' => $this
                 ]
             )->render(),
             'media' => view(
