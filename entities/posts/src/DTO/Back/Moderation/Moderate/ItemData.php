@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace InetStudio\SocialContest\Posts\DTO\Back\Moderation\Moderate;
 
 use Illuminate\Http\Request;
-use Spatie\DataTransferObject\FlexibleDataTransferObject;
+use Spatie\DataTransferObject\DataTransferObject;
 use InetStudio\SocialContest\Posts\Contracts\DTO\Back\Moderation\Moderate\ItemDataContract;
 
-class ItemData extends FlexibleDataTransferObject implements ItemDataContract
+class ItemData extends DataTransferObject implements ItemDataContract
 {
     public int $id;
 

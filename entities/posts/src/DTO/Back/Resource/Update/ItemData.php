@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace InetStudio\SocialContest\Posts\DTO\Back\Resource\Update;
 
 use Illuminate\Http\Request;
-use Spatie\DataTransferObject\FlexibleDataTransferObject;
+use Spatie\DataTransferObject\DataTransferObject;
 use InetStudio\SocialContest\Prizes\DTO\Back\Items\Attach\ItemData as PrizeData;
 use InetStudio\SocialContest\Prizes\DTO\Back\Items\Attach\PivotData as PrizePivotData;
 use InetStudio\SocialContest\Posts\Contracts\DTO\Back\Resource\Update\ItemDataContract;
 use InetStudio\SocialContest\Prizes\DTO\Back\Items\Attach\ItemsCollection as PrizesCollection;
 
-class ItemData extends FlexibleDataTransferObject implements ItemDataContract
+class ItemData extends DataTransferObject implements ItemDataContract
 {
     public int $id;
 
