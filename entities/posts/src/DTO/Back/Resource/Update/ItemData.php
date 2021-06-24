@@ -9,19 +9,20 @@ use Spatie\DataTransferObject\DataTransferObject;
 use InetStudio\SocialContest\Prizes\DTO\Back\Items\Attach\ItemData as PrizeData;
 use InetStudio\SocialContest\Prizes\DTO\Back\Items\Attach\PivotData as PrizePivotData;
 use InetStudio\SocialContest\Posts\Contracts\DTO\Back\Resource\Update\ItemDataContract;
-use InetStudio\SocialContest\Prizes\DTO\Back\Items\Attach\ItemsCollection as PrizesCollection;
 
 class ItemData extends DataTransferObject implements ItemDataContract
 {
     public int $id;
 
-    public PrizesCollection $prizes;
+    /** @var \InetStudio\SocialContest\Prizes\DTO\Back\Items\Attach\ItemData[] */
+    #[CastWith(ArrayCaster::class, itemType: PrizeData::class)]
+    public array $prizes;
 
     public static function fromRequest(Request $request): self
     {
         $data = [
             'id' => $request->input('id'),
-            'prizes' => new PrizesCollection(),
+            'prizes' => [],
         ];
 
         foreach ($request->input('prizes', []) as $prize) {

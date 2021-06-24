@@ -8,11 +8,10 @@ use Illuminate\Support\Collection;
 use InetStudio\SocialContest\Posts\Contracts\Models\PostModelContract;
 use InetStudio\SocialContest\Prizes\Services\ItemsService as BaseItemsService;
 use InetStudio\SocialContest\Prizes\Contracts\Services\Back\ItemsServiceContract;
-use InetStudio\SocialContest\Prizes\Contracts\DTO\Back\Items\Attach\ItemsCollectionContract;
 
 class ItemsService extends BaseItemsService implements ItemsServiceContract
 {
-    public function attach(PostModelContract $item, ItemsCollectionContract $prizes): void
+    public function attach(PostModelContract $item, array $prizes): void
     {
         if (count($prizes) === 0) {
             $item->prizes()->detach();
