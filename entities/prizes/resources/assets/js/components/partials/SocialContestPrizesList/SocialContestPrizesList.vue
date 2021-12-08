@@ -13,6 +13,9 @@
 </template>
 
 <script>
+  import hash from 'object-hash';
+  import Swal from 'sweetalert2';
+
   export default {
     name: 'SocialContestPrizesList',
     props: {
@@ -48,13 +51,13 @@
 
           component.prizes = _.map(JSON.parse(JSON.stringify(newValues)), function (prize) {
             if (prize.hasOwnProperty('model')) {
-              prize.hash = window.hash(prize.model);
+              prize.hash = hash(prize.model);
 
               return prize;
             }
 
             return {
-              hash: window.hash(prize),
+              hash: hash(prize),
               model: prize
             };
           });
@@ -77,9 +80,9 @@
       remove(payload) {
         let component = this;
 
-        swal({
+        Swal.fire({
           title: 'Вы уверены?',
-          type: 'warning',
+          icon: 'warning',
           showCancelButton: true,
           cancelButtonText: 'Отмена',
           confirmButtonColor: '#DD6B55',
@@ -102,7 +105,7 @@
         let component = this;
 
         let storePrize = JSON.parse(JSON.stringify(window.Admin.vue.stores['social_contest_prizes'].state.prize));
-        storePrize.hash = window.hash(storePrize.model);
+        storePrize.hash = hash(storePrize.model);
 
         let index = component.getPrizeIndex(storePrize.model.id);
 

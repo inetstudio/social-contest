@@ -1,4 +1,6 @@
-window.Admin.vue.stores['social_contest_posts'] = new Vuex.Store({
+import hash from 'object-hash';
+
+window.Admin.vue.stores['social_contest_posts'] = new window.Vuex.Store({
   state: {
     post: {
       model: {},
@@ -13,7 +15,7 @@ window.Admin.vue.stores['social_contest_posts'] = new Vuex.Store({
       let postCopy = JSON.parse(JSON.stringify(post));
 
       state.post.model = postCopy;
-      state.post.hash = window.hash(postCopy);
+      state.post.hash = hash(postCopy);
     },
     setPosts(state, posts) {
       state.posts = posts;

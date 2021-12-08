@@ -1,9 +1,10 @@
+import {posts} from './package/social-contest.posts'
+
 require('./stores/posts');
 
-Vue.component(
+window.Vue.component(
     'SocialContestPostForm',
-    require('./components/pages/Form.vue').default,
+    () => import('./components/pages/Form.vue'),
 );
 
-let posts = require('./package/social-contest.posts');
 posts.init();

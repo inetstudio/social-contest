@@ -1,16 +1,16 @@
 require('./stores/social_contest_prizes');
 
-Vue.component(
+window.Vue.component(
     'SocialContestPrizesList',
-    require('./components/partials/SocialContestPrizesList/SocialContestPrizesList.vue').default,
+    () => import('./components/partials/SocialContestPrizesList/SocialContestPrizesList.vue'),
 );
-Vue.component(
+window.Vue.component(
     'SocialContestPrizesListItem',
-    require('./components/partials/SocialContestPrizesList/SocialContestPrizesListItem.vue').default,
+    () => import('./components/partials/SocialContestPrizesList/SocialContestPrizesListItem.vue'),
 );
-Vue.component(
+window.Vue.component(
     'SocialContestPrizesListItemForm',
-    require('./components/partials/SocialContestPrizesList/SocialContestPrizesListItemForm.vue').default,
+    () => import('./components/partials/SocialContestPrizesList/SocialContestPrizesListItemForm.vue'),
 );
 
 let prizes = require('./package/social_contest_prizes');

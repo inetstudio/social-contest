@@ -88,6 +88,9 @@
 </template>
 
 <script>
+  import hash from 'object-hash';
+  import Swal from 'sweetalert2';
+
   export default {
     name: 'SocialContestPostForm',
     data() {
@@ -108,7 +111,7 @@
         handler: function(newValue, oldValue) {
           let component = this;
 
-          component.post.hash = window.hash(newValue);
+          component.post.hash = hash(newValue);
         },
         deep: true
       },
@@ -173,10 +176,10 @@
               .catch(error => {
                 container.removeClass('sk-loading');
 
-                swal.fire({
+                Swal.fire({
                   title: 'Ошибка',
                   text: 'При сохранении произошла ошибка',
-                  type: 'error'
+                  icon: 'error'
                 });
               });
         }
