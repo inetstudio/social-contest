@@ -1,3 +1,5 @@
+import {prizes} from './package/social_contest_prizes';
+
 require('./stores/social_contest_prizes');
 
 window.Vue.component(
@@ -13,5 +15,4 @@ window.Vue.component(
     () => import('./components/partials/SocialContestPrizesList/SocialContestPrizesListItemForm.vue'),
 );
 
-let prizes = require('./package/social_contest_prizes');
 prizes.init();
